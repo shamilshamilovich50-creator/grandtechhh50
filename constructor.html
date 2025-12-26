@@ -1,0 +1,2651 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Tech | Дизайн-Конструктор</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* ===== ОСНОВНЫЕ СТИЛИ ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #050505 0%, #121212 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ===== ГЛАВНЫЙ КОНТЕЙНЕР ===== */
+        .design-constructor {
+            max-width: 1920px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 320px 1fr 380px;
+            gap: 25px;
+            min-height: 95vh;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ===== БЛОК 1: ПАНЕЛЬ ЭЛЕМЕНТОВ (ОПТИМИЗИРОВАНА) ===== */
+        .elements-panel {
+            background: rgba(20, 20, 25, 0.9);
+            border-radius: 24px;
+            padding: 25px;
+            border: 2px solid rgba(255, 215, 0, 0.15);
+            backdrop-filter: blur(15px);
+            height: 100%;
+            overflow-y: auto;
+            position: sticky;
+            top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .elements-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .elements-panel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .elements-panel::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 3px;
+        }
+
+        .elements-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .elements-header i {
+            font-size: 24px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .elements-header h3 {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ОПТИМИЗИРОВАННЫЕ ЭЛЕМЕНТЫ */
+        .draggable-elements {
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        }
+
+        .draggable-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 20px 15px;
+            cursor: grab;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 120px;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .draggable-item:hover {
+            background: rgba(255, 215, 0, 0.12);
+            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.15);
+        }
+
+        .draggable-item i {
+            font-size: 32px;
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .draggable-item:hover i {
+            transform: scale(1.2);
+        }
+
+        .element-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.3;
+            word-break: break-word;
+            max-width: 100%;
+        }
+
+        .element-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 215, 0, 0.9);
+            color: #000;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        /* ===== БЛОК 2: РАБОЧАЯ ОБЛАСТЬ ===== */
+        .workspace-area {
+            background: rgba(15, 15, 20, 0.9);
+            border-radius: 24px;
+            padding: 25px;
+            border: 2px solid rgba(255, 215, 0, 0.15);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .workspace-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .workspace-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .workspace-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            color: #ffd700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 215, 0, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .device-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .device-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: #b0b0b0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .device-btn.active {
+            background: rgba(255, 215, 0, 0.25);
+            color: #ffd700;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .device-btn i {
+            font-size: 18px;
+        }
+
+        /* РАБОЧЕЕ ПОЛЕ */
+        .workspace-container {
+            flex: 1;
+            overflow: auto;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .workspace {
+            min-height: 700px;
+            background: rgba(10, 10, 15, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        .workspace.desktop {
+            width: 100%;
+        }
+
+        .workspace.tablet {
+            width: 768px;
+            border: 20px solid #111;
+            border-top-width: 40px;
+            border-bottom-width: 40px;
+            border-radius: 40px;
+        }
+
+        .workspace.mobile {
+            width: 375px;
+            border: 20px solid #111;
+            border-top-width: 60px;
+            border-bottom-width: 60px;
+            border-radius: 50px;
+        }
+
+        /* ДРОП-ЗОНА */
+        .drop-zone {
+            min-height: 200px;
+            border: 3px dashed rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: rgba(255, 215, 0, 0.03);
+        }
+
+        .drop-zone.active {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.08);
+            animation: pulse-border 1.5s infinite;
+        }
+
+        .drop-placeholder {
+            text-align: center;
+            color: rgba(255, 215, 0, 0.7);
+            max-width: 400px;
+        }
+
+        .drop-placeholder i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .drop-placeholder p {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        .drop-placeholder .hint {
+            font-size: 14px;
+            opacity: 0.6;
+        }
+
+        /* ЭЛЕМЕНТЫ В РАБОЧЕЙ ОБЛАСТИ (ОПТИМИЗИРОВАНЫ) */
+        .site-element {
+            position: relative;
+            margin-bottom: 30px;
+            border: 2px solid transparent;
+            border-radius: 18px;
+            padding: 30px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.04);
+            min-width: 200px;
+            cursor: move;
+            max-width: 100%;
+            overflow: hidden;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .site-element * {
+            max-width: 100%;
+            overflow-wrap: break-word;
+        }
+
+        .site-element:hover {
+            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .site-element.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.08);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.25);
+            transform: scale(1.005);
+        }
+
+        .element-controls {
+            position: absolute;
+            top: -18px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 100;
+            transform: translateY(5px);
+        }
+
+        .site-element:hover .element-controls {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .element-btn {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .element-btn:hover {
+            background: #fff;
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        /* ===== БЛОК 3: ПАНЕЛЬ НАСТРОЕК (ОПТИМИЗИРОВАНА) ===== */
+        .settings-panel {
+            background: rgba(20, 20, 25, 0.9);
+            border-radius: 24px;
+            padding: 25px;
+            border: 2px solid rgba(255, 215, 0, 0.15);
+            backdrop-filter: blur(15px);
+            height: 100%;
+            overflow-y: auto;
+            position: sticky;
+            top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .settings-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .settings-panel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .settings-panel::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 3px;
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .settings-header i {
+            font-size: 24px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .settings-header h3 {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* СЕКЦИИ НАСТРОЕК */
+        .settings-section {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .settings-section h4 {
+            color: #ffd700;
+            margin-bottom: 22px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .settings-section h4 i {
+            font-size: 20px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ФОРМЫ НАСТРОЕК */
+        .settings-group {
+            margin-bottom: 25px;
+        }
+
+        .settings-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .settings-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .settings-input:focus {
+            outline: none;
+            border-color: #ffd700;
+            background: rgba(255, 255, 255, 0.09);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+        }
+
+        textarea.settings-input {
+            resize: vertical;
+            min-height: 100px;
+            max-height: 200px;
+        }
+
+        .color-picker-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .color-picker {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            background: #ffd700;
+            transition: transform 0.3s;
+        }
+
+        .color-picker:hover {
+            transform: scale(1.05);
+        }
+
+        .color-input {
+            flex: 1;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            color: #fff;
+            font-family: monospace;
+            font-size: 15px;
+        }
+
+        /* КНОПКИ СТИЛЕЙ */
+        .style-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .style-btn {
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .style-btn:hover {
+            background: rgba(255, 215, 0, 0.15);
+            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .style-btn.active {
+            background: rgba(255, 215, 0, 0.25);
+            border-color: #ffd700;
+            color: #ffd700;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        /* СТИЛИ ДЛЯ РАЗНЫХ ТИПОВ ЭЛЕМЕНТОВ */
+        .style-minimal {
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+        }
+
+        .style-corporate {
+            border: 2px solid rgba(0, 100, 255, 0.3) !important;
+            background: rgba(0, 100, 255, 0.05) !important;
+        }
+
+        .style-creative {
+            border: none !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 100, 100, 0.08), 
+                rgba(100, 100, 255, 0.08)) !important;
+            box-shadow: 0 10px 30px rgba(255, 100, 100, 0.1) !important;
+        }
+
+        .style-luxury {
+            border: 3px solid var(--accent-color, #ffd700) !important;
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.9), 
+                rgba(20, 20, 20, 0.9)) !important;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.15) !important;
+        }
+
+        .style-modern {
+            border: none !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            backdrop-filter: blur(10px);
+        }
+
+        .style-elegant {
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.04), 
+                rgba(255, 255, 255, 0.08)) !important;
+        }
+
+        /* АНИМАЦИИ */
+        .animation-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .anim-btn {
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .anim-btn:hover {
+            background: rgba(255, 215, 0, 0.15);
+            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .anim-btn.active {
+            background: rgba(255, 215, 0, 0.25);
+            border-color: #ffd700;
+            color: #ffd700;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .anim-icon {
+            font-size: 22px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* СЛАЙДЕРЫ */
+        .slider-group {
+            margin-bottom: 25px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .slider-value {
+            min-width: 60px;
+            text-align: center;
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, 
+                rgba(255, 215, 0, 0.5), 
+                rgba(255, 255, 255, 0.1));
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #ffd700;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid #000;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 1);
+        }
+
+        /* КНОПКИ ЭКСПОРТА */
+        .export-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .export-buttons {
+            display: grid;
+            gap: 15px;
+        }
+
+        .export-btn {
+            padding: 16px;
+            background: linear-gradient(135deg, 
+                rgba(255, 215, 0, 0.15), 
+                rgba(255, 215, 0, 0.05));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 14px;
+            color: #ffd700;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .export-btn:hover {
+            background: rgba(255, 215, 0, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+        }
+
+        .export-btn i {
+            font-size: 20px;
+        }
+
+        /* ===== СТИЛИ ДЛЯ КОНКРЕТНЫХ ЭЛЕМЕНТОВ (ОПТИМИЗИРОВАНЫ) ===== */
+        .hero-section {
+            background: linear-gradient(135deg, 
+                rgba(10, 10, 15, 0.9), 
+                rgba(25, 25, 35, 0.9));
+            border-radius: 24px;
+            padding: 80px 40px;
+            text-align: center;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: #ffd700;
+            line-height: 1.2;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: #b0b0b0;
+            margin-bottom: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+            word-wrap: break-word;
+        }
+
+        .features-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 50px 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            max-width: 100%;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 35px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.09);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: #ffd700;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 36px;
+            color: #000;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .feature-title {
+            font-size: 22px;
+            margin-bottom: 18px;
+            font-weight: 700;
+            color: #fff;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .feature-desc {
+            color: #b0b0b0;
+            line-height: 1.7;
+            font-size: 15px;
+            flex: 1;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .contact-section {
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 100%;
+        }
+
+        .contact-title {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            margin-bottom: 30px;
+            color: #ffd700;
+            word-wrap: break-word;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: grid;
+            gap: 25px;
+        }
+
+        .form-input {
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s;
+            max-width: 100%;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #ffd700;
+            background: rgba(255, 255, 255, 0.09);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #ffed4e, #ffd700);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        /* ПРОГРЕСС БАР */
+        .progress-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 50px 40px;
+            max-width: 100%;
+        }
+
+        .progress-item {
+            margin-bottom: 40px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 18px;
+            flex-wrap: wrap;
+        }
+
+        .progress-bar {
+            height: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 7px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            border-radius: 7px;
+            width: 75%;
+            position: relative;
+            transition: width 1s ease-in-out;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        /* ТЕКСТОВЫЙ БЛОК */
+        .text-block {
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+
+        .text-block h2 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 700;
+            word-wrap: break-word;
+        }
+
+        .text-block p {
+            color: #e0e0e0;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            word-wrap: break-word;
+        }
+
+        /* КНОПКА */
+        .custom-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 45px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
+            border: none;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+
+        .custom-button:hover {
+            background: linear-gradient(135deg, #ffed4e, #ffd700);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        /* ИКОНКА */
+        .icon-element {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .icon-element i {
+            font-size: 64px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .icon-text {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            word-wrap: break-word;
+        }
+
+        /* ИЗОБРАЖЕНИЕ */
+        .image-element {
+            max-width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            object-fit: cover;
+            max-height: 400px;
+        }
+
+        .upload-btn {
+            padding: 16px 30px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px dashed rgba(255, 215, 0, 0.3);
+            border-radius: 14px;
+            color: #ffd700;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .upload-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-style: solid;
+        }
+
+        /* ===== АНИМАЦИИ CSS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulse-border {
+            0% { border-color: rgba(255, 215, 0, 0.3); }
+            50% { border-color: rgba(255, 215, 0, 0.8); }
+            100% { border-color: rgba(255, 215, 0, 0.3); }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+            20%, 40%, 60%, 80% { transform: translateX(8px); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* АНИМАЦИОННЫЕ КЛАССЫ */
+        .anim-fadeIn { animation: fadeInUp var(--anim-speed, 1000ms) ease-in-out both; }
+        .anim-slideIn { animation: slideInLeft var(--anim-speed, 1000ms) ease-in-out both; }
+        .anim-pulse { animation: pulse calc(var(--anim-speed, 1000ms) / 2) ease-in-out infinite; }
+        .anim-bounce { animation: bounce var(--anim-speed, 1000ms) ease-in-out infinite; }
+        .anim-shake { animation: shake calc(var(--anim-speed, 1000ms) / 2) ease-in-out both; }
+        .anim-float { animation: float calc(var(--anim-speed, 1000ms) * 2) ease-in-out infinite; }
+
+        /* ===== АДАПТИВНОСТЬ ===== */
+        @media (max-width: 1600px) {
+            .design-constructor {
+                grid-template-columns: 300px 1fr 350px;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 1400px) {
+            .design-constructor {
+                grid-template-columns: 280px 1fr 320px;
+            }
+            
+            .features-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .design-constructor {
+                grid-template-columns: 250px 1fr 300px;
+                gap: 15px;
+            }
+            
+            .style-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .design-constructor {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+                height: auto;
+                gap: 20px;
+            }
+            
+            .elements-panel,
+            .settings-panel {
+                position: static;
+                width: 100%;
+                height: 500px;
+            }
+            
+            .elements-panel {
+                margin-bottom: 0;
+            }
+            
+            .workspace-area {
+                min-height: 700px;
+            }
+            
+            .features-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .draggable-elements {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .design-constructor {
+                padding: 15px;
+            }
+            
+            .workspace-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .workspace-title {
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            
+            .workspace-controls {
+                justify-content: center;
+            }
+            
+            .device-toggle {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .control-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .hero-section,
+            .features-section,
+            .contact-section,
+            .progress-section {
+                padding: 30px 20px;
+            }
+            
+            .workspace {
+                padding: 20px;
+            }
+            
+            .drop-placeholder i {
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .design-constructor {
+                padding: 10px;
+            }
+            
+            .elements-panel,
+            .settings-panel {
+                padding: 20px;
+                height: 400px;
+            }
+            
+            .draggable-elements {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .draggable-item {
+                padding: 15px 10px;
+                min-height: 100px;
+            }
+            
+            .style-buttons,
+            .animation-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .export-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .feature-card {
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .elements-panel,
+            .settings-panel {
+                height: 350px;
+            }
+            
+            .draggable-elements {
+                grid-template-columns: 1fr;
+            }
+            
+            .control-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .device-btn {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+            
+            .color-picker-group {
+                flex-direction: column;
+            }
+            
+            .color-picker {
+                width: 100%;
+                height: 50px;
+            }
+        }
+
+        /* ===== МОДАЛЬНОЕ ОКНО ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(15px);
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.4s;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1f, #24242a);
+            border-radius: 28px;
+            padding: 50px;
+            max-width: 600px;
+            width: 100%;
+            border: 2px solid #ffd700;
+            position: relative;
+            animation: slideUp 0.4s;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            color: #ffd700;
+            font-size: 28px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: rotate(90deg);
+        }
+
+        /* ===== ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ===== */
+        .site-element { 
+            cursor: grab; 
+            user-select: none; 
+            overflow: visible;
+        }
+        
+        .site-element:active { 
+            cursor: grabbing; 
+        }
+        
+        .site-element.dragging { 
+            opacity: 0.6; 
+            outline: 3px dashed rgba(255,215,0,0.6);
+            transform: rotate(2deg);
+        }
+
+        .accent { 
+            color: var(--accent-color, #ffd700); 
+        }
+
+        .image-hint { 
+            font-size: 14px; 
+            opacity: 0.7; 
+            line-height: 1.5; 
+            margin-top: 15px;
+            word-wrap: break-word;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffd700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #b0b0b0;
+            margin-top: 5px;
+        }
+
+        /* Предупреждение при большом тексте */
+        .text-warning {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .too-long .text-warning {
+            display: block;
+        }
+
+        /* Индикатор загрузки */
+        .loading {
+            position: relative;
+            opacity: 0.7;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 215, 0, 0.1), 
+                transparent);
+            animation: shimmer 1.5s infinite;
+        }
+        /* ===== MOBILE WORKSPACE OPTIMIZATION ===== */
+@media (max-width: 576px) {
+
+  .workspace-header {
+    gap: 10px;
+    padding-bottom: 12px;
+  }
+
+  /* Заголовок меньше */
+  .workspace-title {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  /* Device toggle — компакт */
+  .device-toggle {
+    width: 100%;
+    justify-content: space-between;
+    padding: 4px;
+  }
+
+  .device-btn span {
+    display: none; /* скрываем текст */
+  }
+
+  .device-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 0;
+  }
+
+  /* Кнопки действий в одну строку */
+  .workspace-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
+  }
+
+  .control-btn {
+    padding: 10px;
+    font-size: 0;
+    justify-content: center;
+  }
+
+  .control-btn i {
+    font-size: 18px;
+  }
+}
+/* ===== MOBILE WORKSPACE HEADER SPLIT ===== */
+@media (max-width: 576px) {
+
+  .workspace-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  /* ===== ВЕРХ: DEVICE TOGGLE ===== */
+  .device-toggle {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: rgba(255,255,255,0.05);
+    padding: 6px;
+    border-radius: 14px;
+  }
+
+  .device-btn {
+    justify-content: center;
+    padding: 10px 0;
+    background: rgba(255,255,255,0.06);
+    color: #aaa;
+  }
+
+  .device-btn.active {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    box-shadow: none;
+  }
+
+  .device-btn span {
+    display: none; /* убираем текст */
+  }
+
+  /* ===== НИЗ: ACTION BUTTONS ===== */
+  .control-btn {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #000;
+    justify-content: center;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 0;
+  }
+
+  .control-btn i {
+    font-size: 20px;
+  }
+
+  /* сетка из 3 кнопок */
+  .control-btn:nth-child(n+2) {
+    display: inline-flex;
+  }
+
+  .workspace-controls > .control-btn {
+    width: 100%;
+  }
+}
+
+    </style>
+</head>
+<body>
+    <!-- ГЛАВНЫЙ КОНТЕЙНЕР -->
+    <div class="design-constructor">
+        <!-- БЛОК 1: ОПТИМИЗИРОВАННАЯ ПАНЕЛЬ ЭЛЕМЕНТОВ -->
+        <div class="elements-panel">
+            <div class="elements-header">
+                <i class="fas fa-th-large"></i>
+                <h3>Элементы сайта</h3>
+            </div>
+            
+            <div class="draggable-elements">
+                <!-- ГЕРОЙ СЕКЦИЯ -->
+                <div class="draggable-item" draggable="true" data-type="hero">
+                    <i class="fas fa-star"></i>
+                    <div class="element-name">Герой секция</div>
+                    <span class="element-badge">Популярно</span>
+                </div>
+                
+                <!-- СЕКЦИЯ ФИЧ -->
+                <div class="draggable-item" draggable="true" data-type="features">
+                    <i class="fas fa-layer-group"></i>
+                    <div class="element-name">Секция фич</div>
+                </div>
+                
+                <!-- КОНТАКТНАЯ ФОРМА -->
+                <div class="draggable-item" draggable="true" data-type="contact">
+                    <i class="fas fa-envelope"></i>
+                    <div class="element-name">Контакт форма</div>
+                </div>
+                
+                <!-- ПРОГРЕСС БАР -->
+                <div class="draggable-item" draggable="true" data-type="progress">
+                    <i class="fas fa-chart-bar"></i>
+                    <div class="element-name">Прогресс бар</div>
+                </div>
+                
+                <!-- ТЕКСТОВЫЙ БЛОК -->
+                <div class="draggable-item" draggable="true" data-type="text">
+                    <i class="fas fa-paragraph"></i>
+                    <div class="element-name">Текстовый блок</div>
+                    <span class="element-badge">Новый</span>
+                </div>
+                
+                <!-- КНОПКА -->
+                <div class="draggable-item" draggable="true" data-type="button">
+                    <i class="fas fa-hand-pointer"></i>
+                    <div class="element-name">Кнопка</div>
+                </div>
+                
+                <!-- ЗАГОЛОВОК -->
+                <div class="draggable-item" draggable="true" data-type="heading">
+                    <i class="fas fa-heading"></i>
+                    <div class="element-name">Заголовок</div>
+                </div>
+                
+                <!-- ИКОНКА -->
+                <div class="draggable-item" draggable="true" data-type="icon">
+                    <i class="fas fa-icons"></i>
+                    <div class="element-name">Иконка</div>
+                </div>
+                
+                <!-- ИЗОБРАЖЕНИЕ -->
+                <div class="draggable-item" draggable="true" data-type="image">
+                    <i class="fas fa-image"></i>
+                    <div class="element-name">Изображение</div>
+                </div>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-value" id="totalElements">0</span>
+                    <span class="stat-label">Элементов</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="activeElements">0</span>
+                    <span class="stat-label">Активных</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- БЛОК 2: РАБОЧАЯ ОБЛАСТЬ -->
+        <div class="workspace-area">
+            <div class="workspace-header">
+                <h2 class="workspace-title">Рабочая область</h2>
+                <div class="workspace-controls">
+                    <div class="device-toggle">
+                        <button class="device-btn active" data-device="desktop">
+                            <i class="fas fa-desktop"></i>
+                            <span>Десктоп</span>
+                        </button>
+                        <button class="device-btn" data-device="tablet">
+                            <i class="fas fa-tablet-alt"></i>
+                            <span>Планшет</span>
+                        </button>
+                        <button class="device-btn" data-device="mobile">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Телефон</span>
+                        </button>
+                    </div>
+                    
+                    <button class="control-btn" onclick="clearWorkspace()">
+                        <i class="fas fa-trash"></i>
+                        Очистить
+                    </button>
+                    
+                    <button class="control-btn" onclick="saveDesign()">
+                        <i class="fas fa-save"></i>
+                        Сохранить
+                    </button>
+                    
+                    <button class="control-btn" onclick="exportDesign()">
+                        <i class="fas fa-download"></i>
+                        Экспорт
+                    </button>
+                </div>
+            </div>
+            
+            <div class="workspace-container">
+                <div class="workspace desktop" id="workspace">
+                    <!-- ДРОП-ЗОНА -->
+                    <div class="drop-zone" id="dropZone">
+                        <div class="drop-placeholder">
+                            <i class="fas fa-plus-circle"></i>
+                            <p>Перетащите сюда элементы сайта</p>
+                            <p class="hint">Или кликните на элемент в левой панели</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- БЛОК 3: ОПТИМИЗИРОВАННАЯ ПАНЕЛЬ НАСТРОЕК -->
+        <div class="settings-panel">
+            <div class="settings-header">
+                <i class="fas fa-sliders-h"></i>
+                <h3>Настройки элемента</h3>
+            </div>
+            
+            <!-- НАСТРОЙКИ ТЕКСТА -->
+            <div class="settings-section">
+                <h4><i class="fas fa-font"></i> Текст</h4>
+                
+                <div class="settings-group">
+                    <label>Заголовок</label>
+                    <input type="text" class="settings-input" id="titleInput" placeholder="Введите заголовок" maxlength="200">
+                    <div class="text-warning">Слишком длинный заголовок</div>
+                </div>
+                
+                <div class="settings-group">
+                    <label>Текст</label>
+                    <textarea class="settings-input" id="textInput" rows="4" placeholder="Введите текст" maxlength="2000"></textarea>
+                    <div class="text-warning">Текст слишком длинный</div>
+                </div>
+                
+                <div class="settings-group">
+                    <label>Размер текста</label>
+                    <div class="slider-container">
+                        <input type="range" min="12" max="72" value="32" id="fontSizeSlider">
+                        <span class="slider-value" id="fontSizeValue">32px</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- НАСТРОЙКИ ЦВЕТА -->
+            <div class="settings-section">
+                <h4><i class="fas fa-palette"></i> Цвета</h4>
+                
+                <div class="settings-group">
+                    <label>Фоновый цвет</label>
+                    <div class="color-picker-group">
+                        <input type="color" class="color-picker" id="bgColorPicker" value="#0a0a0a">
+                        <input type="text" class="color-input" id="bgColorInput" value="#0a0a0a" maxlength="7">
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <label>Цвет текста</label>
+                    <div class="color-picker-group">
+                        <input type="color" class="color-picker" id="textColorPicker" value="#ffffff">
+                        <input type="text" class="color-input" id="textColorInput" value="#ffffff" maxlength="7">
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <label>Акцентный цвет</label>
+                    <div class="color-picker-group">
+                        <input type="color" class="color-picker" id="accentColorPicker" value="#ffd700">
+                        <input type="text" class="color-input" id="accentColorInput" value="#ffd700" maxlength="7">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- НАСТРОЙКИ СТИЛЯ -->
+            <div class="settings-section">
+                <h4><i class="fas fa-paint-brush"></i> Стиль</h4>
+                
+                <div class="style-buttons">
+                    <button class="style-btn active" data-style="minimal">Минимализм</button>
+                    <button class="style-btn" data-style="corporate">Корпоративный</button>
+                    <button class="style-btn" data-style="creative">Креативный</button>
+                    <button class="style-btn" data-style="luxury">Люкс</button>
+                    <button class="style-btn" data-style="modern">Модерн</button>
+                    <button class="style-btn" data-style="elegant">Элегантный</button>
+                </div>
+                
+                <div class="slider-group" style="margin-top: 25px;">
+                    <label>Закругление углов</label>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="50" value="15" id="borderRadiusSlider">
+                        <span class="slider-value" id="borderRadiusValue">15px</span>
+                    </div>
+                </div>
+                
+                <div class="slider-group">
+                    <label>Тень</label>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="50" value="20" id="shadowSlider">
+                        <span class="slider-value" id="shadowValue">20px</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- НАСТРОЙКИ АНИМАЦИЙ -->
+            <div class="settings-section">
+                <h4><i class="fas fa-film"></i> Анимации</h4>
+                
+                <div class="animation-buttons">
+                    <button class="anim-btn" data-animation="fadeIn">
+                        <div class="anim-icon">⬇️</div>
+                        Появление
+                    </button>
+                    <button class="anim-btn" data-animation="slideIn">
+                        <div class="anim-icon">⬅️</div>
+                        Скольжение
+                    </button>
+                    <button class="anim-btn" data-animation="pulse">
+                        <div class="anim-icon">💓</div>
+                        Пульсация
+                    </button>
+                    <button class="anim-btn" data-animation="bounce">
+                        <div class="anim-icon">🏀</div>
+                        Отскок
+                    </button>
+                    <button class="anim-btn" data-animation="float">
+                        <div class="anim-icon">☁️</div>
+                        Плавание
+                    </button>
+                    <button class="anim-btn active" data-animation="none">
+                        <div class="anim-icon">🚫</div>
+                        Без анимации
+                    </button>
+                </div>
+                
+                <div class="slider-group" style="margin-top: 25px;">
+                    <label>Скорость анимации</label>
+                    <div class="slider-container">
+                        <input type="range" min="100" max="3000" value="1000" id="animationSpeedSlider">
+                        <span class="slider-value" id="animationSpeedValue">1s</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ЭКСПОРТ -->
+            <div class="export-section">
+                <h4><i class="fas fa-share-square"></i> Экспорт</h4>
+                
+                <div class="export-buttons">
+                    <button class="export-btn" onclick="exportAsHTML()">
+                        <i class="fab fa-html5"></i>
+                        Экспорт HTML
+                    </button>
+                    <button class="export-btn" onclick="exportAsImage()">
+                        <i class="fas fa-image"></i>
+                        Экспорт PNG
+                    </button>
+                    <button class="export-btn" onclick="generateFigma()">
+                        <i class="fab fa-figma"></i>
+                        Figma файл
+                    </button>
+                    <button class="export-btn" onclick="orderDesign()">
+                        <i class="fas fa-shopping-cart"></i>
+                        Заказать сайт
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- МОДАЛЬНОЕ ОКНО УСПЕХА -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h2 style="color: #ffd700; margin-bottom: 20px;">🎉 Дизайн готов!</h2>
+            <p style="margin-bottom: 20px; line-height: 1.6;">Ваш дизайн успешно сохранен. Наш менеджер свяжется с вами в течение 15 минут для обсуждения деталей реализации.</p>
+            
+            <div style="background: rgba(255, 215, 0, 0.1); padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                <h4 style="color: #ffd700; margin-bottom: 10px;">🎁 Ваш промокод:</h4>
+                <div style="font-size: 32px; font-weight: bold; color: #ffd700; text-align: center;">DESIGN25</div>
+                <p style="text-align: center; margin-top: 10px;">Скидка 25% на реализацию этого дизайна!</p>
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+                <button style="flex: 1; padding: 15px; background: #ffd700; color: #000; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;" onclick="closeModal()">
+                    Продолжить
+                </button>
+                <button style="flex: 1; padding: 15px; background: transparent; color: #ffd700; border: 2px solid #ffd700; border-radius: 10px; font-weight: bold; cursor: pointer;" onclick="orderDesign()">
+                    Заказать сейчас
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+// =========================
+// GRAND TECH | DESIGN CONSTRUCTOR
+// ОПТИМИЗИРОВАННАЯ ВЕРСИЯ
+// =========================
+
+// -------------------------
+// ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+// -------------------------
+let currentElement = null;
+const workspace = document.getElementById("workspace");
+const dropZone = document.getElementById("dropZone");
+
+// Элементы статистики
+const totalElementsSpan = document.getElementById("totalElements");
+const activeElementsSpan = document.getElementById("activeElements");
+
+// Настройки
+const titleInput = document.getElementById("titleInput");
+const textInput = document.getElementById("textInput");
+const fontSizeSlider = document.getElementById("fontSizeSlider");
+const fontSizeValue = document.getElementById("fontSizeValue");
+const bgColorPicker = document.getElementById("bgColorPicker");
+const bgColorInput = document.getElementById("bgColorInput");
+const textColorPicker = document.getElementById("textColorPicker");
+const textColorInput = document.getElementById("textColorInput");
+const accentColorPicker = document.getElementById("accentColorPicker");
+const accentColorInput = document.getElementById("accentColorInput");
+const borderRadiusSlider = document.getElementById("borderRadiusSlider");
+const borderRadiusValue = document.getElementById("borderRadiusValue");
+const shadowSlider = document.getElementById("shadowSlider");
+const shadowValue = document.getElementById("shadowValue");
+const animationSpeedSlider = document.getElementById("animationSpeedSlider");
+const animationSpeedValue = document.getElementById("animationSpeedValue");
+
+// -------------------------
+// ИНИЦИАЛИЗАЦИЯ
+// -------------------------
+document.addEventListener('DOMContentLoaded', function() {
+    updateStats();
+    setupEventListeners();
+    setupTextValidation();
+});
+
+// -------------------------
+// ОБНОВЛЕНИЕ СТАТИСТИКИ
+// -------------------------
+function updateStats() {
+    const elements = workspace.querySelectorAll('.site-element');
+    totalElementsSpan.textContent = elements.length;
+    activeElementsSpan.textContent = elements.length;
+    
+    // Показываем/скрываем дроп-зону
+    dropZone.style.display = elements.length === 0 ? 'flex' : 'none';
+}
+
+// -------------------------
+// ВАЛИДАЦИЯ ТЕКСТА
+// -------------------------
+function setupTextValidation() {
+    const checkTextLength = function(input, maxLength) {
+        const parent = input.parentElement;
+        if (input.value.length > maxLength) {
+            parent.classList.add('too-long');
+            return false;
+        } else {
+            parent.classList.remove('too-long');
+            return true;
+        }
+    };
+    
+    titleInput.addEventListener('input', () => checkTextLength(titleInput, 200));
+    textInput.addEventListener('input', () => checkTextLength(textInput, 2000));
+}
+
+// -------------------------
+// НАСТРОЙКА СОБЫТИЙ
+// -------------------------
+function setupEventListeners() {
+    // Drag & Drop из левой панели
+    document.querySelectorAll('.draggable-item').forEach(item => {
+        item.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('type', item.dataset.type);
+            item.classList.add('dragging');
+        });
+        
+        item.addEventListener('dragend', () => item.classList.remove('dragging'));
+        
+        item.addEventListener('click', () => {
+            createElement(item.dataset.type);
+            scrollToBottomSmooth();
+        });
+    });
+    
+    // Рабочая область
+    workspace.addEventListener('dragover', e => {
+        e.preventDefault();
+        dropZone.classList.add('active');
+    });
+    
+    workspace.addEventListener('dragleave', () => {
+        dropZone.classList.remove('active');
+    });
+    
+    workspace.addEventListener('drop', e => {
+        e.preventDefault();
+        dropZone.classList.remove('active');
+        const type = e.dataTransfer.getData('type');
+        if (type) {
+            createElement(type);
+            scrollToBottomSmooth();
+        }
+    });
+    
+    // Клик по элементам для выбора
+    workspace.addEventListener('click', e => {
+        const el = e.target.closest('.site-element');
+        if (el) selectElement(el);
+    });
+    
+    // Слайдеры
+    document.querySelectorAll('input[type="range"]').forEach(slider => {
+        slider.addEventListener('input', function() {
+            const id = this.id;
+            if (id === 'animationSpeedSlider') {
+                animationSpeedValue.textContent = (this.value / 1000) + 's';
+            } else if (id === 'fontSizeSlider') {
+                fontSizeValue.textContent = this.value + 'px';
+            } else if (id === 'borderRadiusSlider') {
+                borderRadiusValue.textContent = this.value + 'px';
+            } else if (id === 'shadowSlider') {
+                shadowValue.textContent = this.value + 'px';
+            }
+            if (currentElement) applySettings();
+        });
+    });
+    
+    // Цветовые пикеры
+    function bindColorPair(picker, input) {
+        picker.addEventListener('input', () => {
+            input.value = picker.value;
+            if (currentElement) applySettings();
+        });
+        input.addEventListener('input', () => {
+            const v = input.value.trim();
+            if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+                picker.value = v;
+                if (currentElement) applySettings();
+            }
+        });
+    }
+    
+    bindColorPair(bgColorPicker, bgColorInput);
+    bindColorPair(textColorPicker, textColorInput);
+    bindColorPair(accentColorPicker, accentColorInput);
+    
+    // Стили
+    document.querySelectorAll('.style-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            if (currentElement) {
+                currentElement.dataset.stylePreset = this.dataset.style;
+                applySettings();
+            }
+        });
+    });
+    
+    // Анимации
+    document.querySelectorAll('.anim-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.anim-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            if (currentElement) {
+                currentElement.dataset.animation = this.dataset.animation;
+                applySettings();
+            }
+        });
+    });
+    
+    // Текстовые поля
+    titleInput.addEventListener('input', () => currentElement && applySettings());
+    textInput.addEventListener('input', () => currentElement && applySettings());
+    
+    // Переключение устройств
+    document.querySelectorAll('.device-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            workspace.className = 'workspace ' + this.dataset.device;
+        });
+    });
+}
+
+// -------------------------
+// СОЗДАНИЕ ЭЛЕМЕНТОВ
+// -------------------------
+function createElement(type) {
+    const elementId = 'element-' + Date.now() + '-' + Math.floor(Math.random() * 9999);
+    const el = document.createElement('div');
+    el.className = 'site-element';
+    el.id = elementId;
+    el.dataset.type = type;
+    el.setAttribute('draggable', 'true');
+    el.dataset.stylePreset = 'minimal';
+    el.dataset.animation = 'none';
+    el.style.setProperty('--accent-color', '#ffd700');
+    el.style.setProperty('--anim-speed', '1000ms');
+    
+    const controls = `
+        <div class="element-controls">
+            <button class="element-btn" data-action="remove" title="Удалить">🗑</button>
+            <button class="element-btn" data-action="duplicate" title="Дублировать">⎘</button>
+            <button class="element-btn" data-action="move-up" title="Поднять">↑</button>
+            <button class="element-btn" data-action="move-down" title="Опустить">↓</button>
+        </div>
+    `;
+    
+    // Шаблоны элементов
+    const templates = {
+        hero: `
+            ${controls}
+            <div class="hero-section">
+                <h2 class="hero-title">Заголовок героя</h2>
+                <p class="hero-subtitle">Описание вашего проекта или услуги. Этот блок отлично подходит для первого впечатления.</p>
+                <button class="custom-button">Узнать больше</button>
+            </div>
+        `,
+        features: `
+            ${controls}
+            <h3 style="text-align: center; margin-bottom: 30px; color: var(--accent-color);">Наши преимущества</h3>
+            <div class="features-section">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h4 class="feature-title">Быстро</h4>
+                    <p class="feature-desc">Быстрая реализация без лишней бюрократии и задержек.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h4 class="feature-title">Надежно</h4>
+                    <p class="feature-desc">Стабильный результат и профессиональная поддержка 24/7.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h4 class="feature-title">Инновации</h4>
+                    <p class="feature-desc">Современные решения и передовые технологии.</p>
+                </div>
+            </div>
+        `,
+        contact: `
+            ${controls}
+            <h3 style="text-align: center; margin-bottom: 30px; color: var(--accent-color);">Свяжитесь с нами</h3>
+            <div class="contact-form">
+                <input class="form-input" type="text" placeholder="Ваше имя">
+                <input class="form-input" type="email" placeholder="Email">
+                <textarea class="form-input" rows="3" placeholder="Сообщение"></textarea>
+                <button class="submit-btn">Отправить</button>
+            </div>
+        `,
+        progress: `
+            ${controls}
+            <h3 style="color: var(--accent-color); margin-bottom: 25px;">Наши показатели</h3>
+            <div class="progress-section">
+                <div class="progress-item">
+                    <div class="progress-label"><span>Скорость разработки</span><span>75%</span></div>
+                    <div class="progress-bar"><div class="progress-fill"></div></div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Качество кода</span><span>90%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 90%"></div></div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Удовлетворенность клиентов</span><span>95%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 95%"></div></div>
+                </div>
+            </div>
+        `,
+        text: `
+            ${controls}
+            <div class="text-block">
+                <h2>Заголовок текстового блока</h2>
+                <p>Это пример текстового блока. Вы можете редактировать этот текст в панели настроек справа. Текст автоматически переносится и не выходит за границы блока.</p>
+                <p>Все элементы адаптивны и отлично смотрятся на любых устройствах.</p>
+            </div>
+        `,
+        button: `
+            ${controls}
+            <h3 style="color: var(--accent-color); margin-bottom: 20px;">Кнопка действия</h3>
+            <div style="text-align: center;">
+                <button class="custom-button">Нажми меня</button>
+                <p style="margin-top: 15px; color: #b0b0b0;">Эта кнопка использует акцентный цвет из настроек</p>
+            </div>
+        `,
+        heading: `
+            ${controls}
+            <div style="text-align: center; padding: 40px;">
+                <h1 style="color: var(--accent-color); margin-bottom: 20px;">Главный заголовок</h1>
+                <p style="color: #e0e0e0; font-size: 18px;">Подзаголовок или описание под заголовком</p>
+            </div>
+        `,
+        icon: `
+            ${controls}
+            <div class="icon-element">
+                <i class="fas fa-magic"></i>
+                <div class="icon-text">Иконка элемента</div>
+                <p style="margin-top: 15px; color: #b0b0b0;">Эта иконка масштабируется и меняет цвет</p>
+            </div>
+        `,
+        image: `
+            ${controls}
+            <h3 style="color: var(--accent-color); margin-bottom: 20px;">Изображение</h3>
+            <div class="image-element">
+                <div style="background: linear-gradient(135deg, #2a2a2a, #1a1a1a); border-radius: 20px; padding: 40px; text-align: center;">
+                    <i class="fas fa-image" style="font-size: 64px; color: #ffd700; opacity: 0.3; margin-bottom: 20px;"></i>
+                    <p style="color: #b0b0b0;">Нажмите "Загрузить изображение" для добавления картинки</p>
+                </div>
+                <button class="upload-btn" onclick="this.nextElementSibling.click()">
+                    <i class="fas fa-upload"></i>
+                    Загрузить изображение
+                </button>
+                <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(this, event)">
+            </div>
+        `
+    };
+    
+    el.innerHTML = templates[type] || templates.text;
+    workspace.insertBefore(el, dropZone);
+    
+    // Привязка управления
+    bindElementControls(el);
+    
+    // Выбор элемента
+    selectElement(el, true);
+    applySettings();
+    updateStats();
+    
+    // Включение сортировки
+    makeSortable(el);
+}
+
+// -------------------------
+// ЗАГРУЗКА ИЗОБРАЖЕНИЙ
+// -------------------------
+function handleImageUpload(input, event) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const imgContainer = input.parentElement.querySelector('.image-element > div');
+        imgContainer.innerHTML = `
+            <img src="${e.target.result}" class="image-preview" alt="Загруженное изображение">
+        `;
+    };
+    reader.readAsDataURL(file);
+}
+
+// -------------------------
+// УПРАВЛЕНИЕ ЭЛЕМЕНТАМИ
+// -------------------------
+function bindElementControls(element) {
+    const controls = element.querySelector('.element-controls');
+    if (!controls) return;
+    
+    controls.addEventListener('click', function(e) {
+        const btn = e.target.closest('.element-btn');
+        if (!btn) return;
+        
+        const action = btn.dataset.action;
+        
+        switch(action) {
+            case 'remove':
+                if (confirm('Удалить этот элемент?')) {
+                    element.remove();
+                    if (currentElement === element) currentElement = null;
+                    updateStats();
+                }
+                break;
+                
+            case 'duplicate':
+                const clone = element.cloneNode(true);
+                clone.id = 'element-' + Date.now() + '-' + Math.floor(Math.random() * 9999);
+                clone.classList.remove('selected');
+                clone.setAttribute('draggable', 'true');
+                
+                // Обновляем ID изображения если есть
+                const imgInput = clone.querySelector('input[type="file"]');
+                if (imgInput) {
+                    imgInput.onchange = (e) => handleImageUpload(imgInput, e);
+                }
+                
+                bindElementControls(clone);
+                workspace.insertBefore(clone, dropZone);
+                selectElement(clone, true);
+                applySettings();
+                updateStats();
+                break;
+                
+            case 'move-up':
+                const prev = element.previousElementSibling;
+                if (prev && prev !== dropZone) {
+                    element.parentNode.insertBefore(element, prev);
+                }
+                break;
+                
+            case 'move-down':
+                const next = element.nextElementSibling;
+                if (next && next !== dropZone && next.nextElementSibling) {
+                    element.parentNode.insertBefore(element, next.nextElementSibling);
+                }
+                break;
+        }
+        
+        e.stopPropagation();
+    });
+}
+
+// -------------------------
+// ВЫБОР ЭЛЕМЕНТА
+// -------------------------
+function selectElement(element, forceFill = false) {
+    if (!element) return;
+    
+    // Снимаем выделение со всех
+    document.querySelectorAll('.site-element').forEach(el => el.classList.remove('selected'));
+    
+    // Выделяем текущий
+    element.classList.add('selected');
+    currentElement = element;
+    
+    // Заполняем настройки
+    const titleEl = element.querySelector('h1, h2, h3, h4, .hero-title, .feature-title');
+    const textEl = element.querySelector('p, .hero-subtitle, .feature-desc');
+    
+    if (titleEl || forceFill) {
+        titleInput.value = titleEl ? titleEl.textContent : '';
+        const fs = parseInt(window.getComputedStyle(titleEl || element).fontSize, 10) || 32;
+        fontSizeSlider.value = fs;
+        fontSizeValue.textContent = fs + 'px';
+    }
+    
+    if (textEl || forceFill) {
+        textInput.value = textEl ? textEl.textContent : '';
+    }
+    
+    // Цвета
+    const computedBg = window.getComputedStyle(element).backgroundColor;
+    const computedTx = window.getComputedStyle(element).color || '#ffffff';
+    const accent = element.style.getPropertyValue('--accent-color')?.trim() || '#ffd700';
+    
+    const bgHex = rgbToHex(computedBg) || '#0a0a0a';
+    const txHex = rgbToHex(computedTx) || '#ffffff';
+    
+    bgColorInput.value = bgHex; bgColorPicker.value = bgHex;
+    textColorInput.value = txHex; textColorPicker.value = txHex;
+    accentColorInput.value = accent; accentColorPicker.value = accent;
+    
+    // Стиль
+    const preset = element.dataset.stylePreset || 'minimal';
+    document.querySelectorAll('.style-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.style === preset);
+    });
+    
+    // Анимация
+    const anim = element.dataset.animation || 'none';
+    document.querySelectorAll('.anim-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.animation === anim);
+    });
+    
+    // Закругление
+    const br = parseInt(window.getComputedStyle(element).borderRadius, 10) || 15;
+    borderRadiusSlider.value = br;
+    borderRadiusValue.textContent = br + 'px';
+    
+    // Тень
+    const sh = parseInt(element.dataset.shadow || '20', 10);
+    shadowSlider.value = sh;
+    shadowValue.textContent = sh + 'px';
+    
+    // Скорость анимации
+    const sp = parseInt(element.dataset.animSpeed || '1000', 10);
+    animationSpeedSlider.value = sp;
+    animationSpeedValue.textContent = (sp / 1000) + 's';
+}
+
+// -------------------------
+// ПРИМЕНЕНИЕ НАСТРОЕК
+// -------------------------
+function applySettings() {
+    if (!currentElement) return;
+    
+    // Текст
+    const title = titleInput.value;
+    const text = textInput.value;
+    
+    currentElement.querySelectorAll('h1, h2, h3, h4, .hero-title, .feature-title').forEach(el => {
+        if (title.trim()) el.textContent = title;
+    });
+    
+    currentElement.querySelectorAll('p, .hero-subtitle, .feature-desc').forEach(el => {
+        if (text.trim()) el.textContent = text;
+    });
+    
+    // Цвета
+    const bgColor = bgColorInput.value.trim();
+    const textColor = textColorInput.value.trim();
+    const accentColor = accentColorInput.value.trim();
+    
+    if (/^#[0-9a-fA-F]{6}$/.test(bgColor)) {
+        currentElement.style.backgroundColor = bgColor;
+    }
+    
+    if (/^#[0-9a-fA-F]{6}$/.test(textColor)) {
+        currentElement.style.color = textColor;
+        currentElement.querySelectorAll('h1, h2, h3, h4, p, span, small, label, li, div:not(.feature-icon)').forEach(el => {
+            el.style.color = textColor;
+        });
+    }
+    
+    if (/^#[0-9a-fA-F]{6}$/.test(accentColor)) {
+        currentElement.style.setProperty('--accent-color', accentColor);
+        
+        // Акцентные элементы
+        currentElement.querySelectorAll('.accent, .feature-icon, button, .custom-button, .submit-btn').forEach(el => {
+            if (el.classList.contains('feature-icon') || el.classList.contains('custom-button') || el.classList.contains('submit-btn')) {
+                el.style.backgroundColor = accentColor;
+                el.style.color = '#000';
+            } else {
+                el.style.color = accentColor;
+            }
+        });
+    }
+    
+    // Размер шрифта
+    const fontSize = parseInt(fontSizeSlider.value, 10);
+    if (!isNaN(fontSize)) {
+        currentElement.querySelectorAll('h1, h2, .hero-title').forEach(el => {
+            el.style.fontSize = fontSize + 'px';
+        });
+        currentElement.querySelectorAll('h3, .feature-title').forEach(el => {
+            el.style.fontSize = Math.max(18, fontSize - 8) + 'px';
+        });
+        currentElement.querySelectorAll('h4').forEach(el => {
+            el.style.fontSize = Math.max(16, fontSize - 12) + 'px';
+        });
+    }
+    
+    // Стиль
+    const preset = document.querySelector('.style-btn.active')?.dataset.style || currentElement.dataset.stylePreset || 'minimal';
+    currentElement.dataset.stylePreset = preset;
+    
+    // Удаляем все стили
+    ['minimal', 'corporate', 'creative', 'luxury', 'modern', 'elegant'].forEach(style => {
+        currentElement.classList.remove('style-' + style);
+    });
+    
+    // Добавляем текущий
+    currentElement.classList.add('style-' + preset);
+    
+    // Закругление
+    const br = parseInt(borderRadiusSlider.value, 10);
+    if (!isNaN(br)) {
+        currentElement.style.borderRadius = br + 'px';
+    }
+    
+    // Тень
+    const sh = parseInt(shadowSlider.value, 10);
+    currentElement.dataset.shadow = sh.toString();
+    if (sh > 0) {
+        currentElement.style.boxShadow = `0 0 ${sh}px rgba(255, 215, 0, 0.25)`;
+    } else {
+        currentElement.style.boxShadow = 'none';
+    }
+    
+    // Анимация
+    const anim = document.querySelector('.anim-btn.active')?.dataset.animation || currentElement.dataset.animation || 'none';
+    currentElement.dataset.animation = anim;
+    
+    // Удаляем все анимации
+    ['fadeIn', 'slideIn', 'pulse', 'bounce', 'shake', 'float'].forEach(animType => {
+        currentElement.classList.remove('anim-' + animType);
+    });
+    
+    // Добавляем текущую
+    if (anim !== 'none') {
+        currentElement.classList.add('anim-' + anim);
+    }
+    
+    // Скорость анимации
+    const sp = parseInt(animationSpeedSlider.value, 10);
+    currentElement.dataset.animSpeed = sp.toString();
+    currentElement.style.setProperty('--anim-speed', sp + 'ms');
+}
+
+// -------------------------
+// СОРТИРОВКА
+// -------------------------
+function makeSortable(element) {
+    let dragged = null;
+    
+    element.addEventListener('dragstart', function(e) {
+        if (e.target.closest('.element-controls')) {
+            e.preventDefault();
+            return;
+        }
+        
+        dragged = this;
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', this.id);
+    });
+    
+    element.addEventListener('dragend', function() {
+        this.classList.remove('dragging');
+        dragged = null;
+    });
+}
+
+workspace.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    
+    if (!dragged) return;
+    
+    const afterElement = getDragAfterElement(this, e.clientY);
+    if (afterElement) {
+        this.insertBefore(dragged, afterElement);
+    } else {
+        this.appendChild(dragged);
+    }
+});
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.site-element:not(.dragging)')];
+    
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+// -------------------------
+// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+// -------------------------
+function rgbToHex(rgb) {
+    if (!rgb || rgb === 'transparent') return null;
+    
+    if (rgb.startsWith('#')) return rgb;
+    
+    const match = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)$/);
+    if (!match) return null;
+    
+    const r = parseInt(match[1]).toString(16).padStart(2, '0');
+    const g = parseInt(match[2]).toString(16).padStart(2, '0');
+    const b = parseInt(match[3]).toString(16).padStart(2, '0');
+    
+    return '#' + r + g + b;
+}
+
+function scrollToBottomSmooth() {
+    workspace.scrollTo({
+        top: workspace.scrollHeight,
+        behavior: 'smooth'
+    });
+}
+
+// -------------------------
+// ОСНОВНЫЕ ФУНКЦИИ ИНТЕРФЕЙСА
+// -------------------------
+function clearWorkspace() {
+    if (workspace.querySelectorAll('.site-element').length === 0) {
+        alert('Рабочая область уже пуста!');
+        return;
+    }
+    
+    if (confirm('Вы уверены, что хотите очистить рабочую область? Все элементы будут удалены.')) {
+        workspace.querySelectorAll('.site-element').forEach(el => el.remove());
+        currentElement = null;
+        updateStats();
+    }
+}
+
+function saveDesign() {
+    document.getElementById('successModal').classList.add('active');
+}
+
+function exportDesign() {
+    const elementCount = workspace.querySelectorAll('.site-element').length;
+    if (elementCount === 0) {
+        alert('Добавьте хотя бы один элемент для экспорта!');
+        return;
+    }
+    
+    alert(`Экспорт дизайна (${elementCount} элементов)... Функция в активной разработке!`);
+}
+
+function exportAsHTML() {
+    alert('Экспорт в HTML... Скоро будет доступно!');
+}
+
+function exportAsImage() {
+    alert('Экспорт в PNG... Скоро будет доступно!');
+}
+
+function generateFigma() {
+    alert('Генерация Figma файла... Скоро будет доступно!');
+}
+
+function orderDesign() {
+    alert('Перенаправление на форму заказа...');
+    // window.location.href = '/order';
+}
+
+function closeModal() {
+    document.getElementById('successModal').classList.remove('active');
+}
+
+// Экспорт в глобальную область видимости
+window.clearWorkspace = clearWorkspace;
+window.saveDesign = saveDesign;
+window.exportDesign = exportDesign;
+window.exportAsHTML = exportAsHTML;
+window.exportAsImage = exportAsImage;
+window.generateFigma = generateFigma;
+window.orderDesign = orderDesign;
+window.closeModal = closeModal;
+</script>
+</body>
+</html>

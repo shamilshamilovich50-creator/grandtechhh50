@@ -1,0 +1,2983 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRAND TECH — Элитная Веб-Разработка Премиум Класса</title>
+
+  <!-- Премиум шрифты -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-dark: #020202;
+      --bg-light: #0a0a0a;
+      --gold1: #ffd700;
+      --gold2: #ffed4e;
+      --gold3: #b8860b;
+      --platinum: #e5e4e2;
+      --accent: #00d4ff;
+      --text: #ffffff;
+      --text-muted: #b0b0b0;
+      --glass: rgba(255, 255, 255, 0.05);
+      --glass-dark: rgba(0, 0, 0, 0.3);
+      --success: #00ff88;
+      --error: #ff3366;
+      
+      --border-radius: 16px;
+      --transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+      --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.8);
+      --shadow-gold: 0 0 40px rgba(255, 215, 0, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+    }
+
+    /* === ПРЕМИУМ LOADER === */
+    #premium-loader {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #050505 0%, #0a0a0a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+
+    #premium-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-logo {
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .loader-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      animation: logoFade 1.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes logoFade {
+      from {
+        opacity: 0.6;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .loader-progress {
+      width: 300px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      margin-top: 40px;
+      overflow: hidden;
+    }
+
+    .loader-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold1), var(--gold2));
+      border-radius: 2px;
+      animation: loading 2s ease-in-out forwards;
+    }
+
+    @keyframes loading {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+
+    /* === ПРЕМИУМ HEADER === */
+    .premium-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 20px 40px;
+      background: rgba(5, 5, 5, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+      transition: var(--transition);
+    }
+
+    .premium-header.scrolled {
+      padding: 15px 40px;
+      background: rgba(5, 5, 5, 0.95);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-premium {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-circle {
+      width: 56px;
+      height: 56px;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(45deg, var(--gold1), var(--platinum));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 1px;
+    }
+
+    .brand-tagline {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-premium {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-link {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+      position: relative;
+      padding: 8px 0;
+      transition: var(--transition);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold1), var(--gold2));
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--gold1);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .cta-premium {
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      color: #000;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+      box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-premium::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.7s ease;
+    }
+
+    .cta-premium:hover::before {
+      left: 100%;
+    }
+
+    .cta-premium:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+    }
+
+    /* === ПРЕМИУМ БУРГЕР === */
+    .premium-burger {
+      display: none;
+      width: 50px;
+      height: 50px;
+      background: var(--glass);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 12px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      z-index: 1001;
+      transition: var(--transition);
+    }
+
+    .premium-burger:hover {
+      background: rgba(255, 215, 0, 0.1);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+
+    .burger-line {
+      width: 24px;
+      height: 2px;
+      background: var(--gold1);
+      border-radius: 2px;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .burger-line::before,
+    .burger-line::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: var(--gold1);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .burger-line::before {
+      top: -8px;
+    }
+
+    .burger-line::after {
+      bottom: -8px;
+    }
+
+    .premium-burger.active .burger-line {
+      background: transparent;
+    }
+
+    .premium-burger.active .burger-line::before {
+      transform: rotate(45deg);
+      top: 0;
+    }
+
+    .premium-burger.active .burger-line::after {
+      transform: rotate(-45deg);
+      bottom: 0;
+    }
+
+    /* === ПРЕМИУМ HERO === */
+    .premium-hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 40px 80px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #050505 0%, #0a0a0a 50%, #050505 100%);
+      z-index: -2;
+    }
+
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.5;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold1);
+      margin-bottom: 30px;
+      position: relative;
+      padding: 8px 20px;
+      background: rgba(255, 215, 0, 0.1);
+      border-radius: 50px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 30px;
+      background: linear-gradient(45deg, var(--gold1), var(--platinum), var(--gold2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+      animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes titleGlow {
+      0% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3)); }
+      100% { filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5)); }
+    }
+
+    .hero-subtitle {
+      font-size: 20px;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto 50px;
+      line-height: 1.7;
+    }
+
+    .hero-cta-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 60px;
+      flex-wrap: wrap;
+    }
+
+    .btn-premium {
+      padding: 18px 36px;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      color: #000;
+      box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--gold1);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-premium:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 50px rgba(255, 215, 0, 0.4);
+    }
+
+    .btn-premium::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.7s ease;
+    }
+
+    .btn-premium:hover::before {
+      left: 100%;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 60px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      min-width: 180px;
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
+
+    .stat-item:hover {
+      transform: translateY(-10px);
+      border-color: rgba(255, 215, 0, 0.3);
+      box-shadow: var(--shadow-gold);
+    }
+
+    .stat-number {
+      font-size: 42px;
+      font-weight: 800;
+      background: linear-gradient(45deg, var(--gold1), var(--gold2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* === ПРЕМИУМ СЕКЦИИ === */
+    .section-premium {
+      padding: 120px 40px;
+      position: relative;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold1);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 800;
+      background: linear-gradient(45deg, var(--gold1), var(--platinum));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+    }
+
+    .section-subtitle {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* === ПРЕМИУМ О НАС === */
+    .about-content {
+      max-width: 900px;
+      width: 100%;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .about-content h3 {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 30px;
+      line-height: 1.3;
+    }
+
+    .about-content p {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      line-height: 1.8;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+      justify-content: center;
+    }
+
+    .about-stat {
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      transition: var(--transition);
+    }
+
+    .about-stat:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 215, 0, 0.3);
+    }
+
+    /* === ПРЕМИУМ УСЛУГИ === */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .service-card-premium {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--border-radius);
+      padding: 40px 30px;
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .service-card-premium:hover {
+      transform: translateY(-20px);
+      border-color: rgba(255, 215, 0, 0.3);
+      box-shadow: var(--shadow-gold);
+    }
+
+    .service-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #000;
+    }
+
+    .service-card-premium h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 15px;
+    }
+
+    .service-card-premium p {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .service-features {
+      list-style: none;
+      margin-bottom: 30px;
+    }
+
+    .service-features li {
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .service-features li i {
+      color: var(--gold1);
+      font-size: 12px;
+    }
+
+    /* === ПРЕМИУМ NFC ВИЗИТКИ === */
+    .nfc-premium {
+      background: linear-gradient(135deg, rgba(5, 5, 5, 0.9), rgba(10, 10, 10, 0.9));
+      border-radius: var(--border-radius);
+      padding: 60px;
+      position: relative;
+      overflow: hidden;
+      margin: 80px 0;
+    }
+
+    .nfc-premium::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold1), transparent);
+    }
+
+    .nfc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .nfc-header h2 {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(45deg, var(--gold1), var(--gold2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nfc-demo {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      margin: 50px 0;
+    }
+
+    .nfc-card-demo {
+      width: 300px;
+      height: 180px;
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      border-radius: 20px;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease;
+      cursor: pointer;
+    }
+
+    .nfc-card-demo:hover {
+      transform: rotateY(10deg) rotateX(5deg);
+    }
+
+    .nfc-chip {
+      width: 50px;
+      height: 40px;
+      background: linear-gradient(135deg, #d4af37, #ffed4e);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nfc-chip::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      background: linear-gradient(135deg, #b8860b, #d4af37);
+      border-radius: 6px;
+    }
+
+    .nfc-contactless {
+      position: absolute;
+      right: 30px;
+      top: 30px;
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--gold1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nfc-contactless::before {
+      content: '';
+      width: 60%;
+      height: 60%;
+      border: 2px solid var(--gold1);
+      border-radius: 50%;
+    }
+
+    .nfc-info h3 {
+      color: var(--gold1);
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .nfc-info p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* === ПРЕМИУМ ТЕХНОЛОГИИ === */
+    .tech-grid-premium {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .tech-card-premium {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--border-radius);
+      padding: 40px 30px;
+      text-align: center;
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tech-card-premium:hover {
+      transform: translateY(-10px);
+      border-color: rgba(255, 215, 0, 0.3);
+      box-shadow: var(--shadow-gold);
+    }
+
+    .tech-card-premium::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+      transition: left 0.7s ease;
+    }
+
+    .tech-card-premium:hover::before {
+      left: 100%;
+    }
+
+    .tech-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 25px;
+      font-size: 32px;
+      color: #000;
+    }
+
+    /* === ПРЕМИУМ ПОРТФОЛИО === */
+    .portfolio-filter {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 12px 28px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      border-radius: 50px;
+      color: var(--text-muted);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      color: #000;
+      border-color: transparent;
+    }
+
+    .portfolio-grid-premium {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .portfolio-item {
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      height: 400px;
+    }
+
+    .portfolio-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .portfolio-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 30px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .portfolio-item:hover .portfolio-overlay {
+      opacity: 1;
+    }
+
+    .portfolio-item:hover .portfolio-image {
+      transform: scale(1.1);
+    }
+
+    .portfolio-info h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .portfolio-info p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    /* === ПРЕМИУМ СТАТИСТИКА === */
+    .stats-premium {
+      background: linear-gradient(135deg, rgba(5, 5, 5, 0.9), rgba(10, 10, 10, 0.9));
+      border-radius: var(--border-radius);
+      padding: 80px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stats-premium::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=2070') center/cover;
+      opacity: 0.1;
+      z-index: -1;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+    }
+
+    .stat-premium {
+      text-align: center;
+      position: relative;
+    }
+
+    .counter-premium {
+      font-size: 72px;
+      font-weight: 900;
+      background: linear-gradient(45deg, var(--gold1), var(--gold2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+      line-height: 1;
+    }
+
+    .stat-label-premium {
+      font-size: 18px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* === ПРЕМИУМ FAQ === */
+    .faq-premium {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .faq-item-premium {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--border-radius);
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .faq-item-premium.active {
+      border-color: rgba(255, 215, 0, 0.3);
+      box-shadow: var(--shadow-gold);
+    }
+
+    .faq-question-premium {
+      width: 100%;
+      padding: 30px;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 600;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .faq-question-premium:hover {
+      color: var(--gold1);
+    }
+
+    .faq-icon {
+      width: 24px;
+      height: 24px;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-icon span {
+      position: absolute;
+      background: var(--gold1);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .faq-icon span:first-child {
+      width: 100%;
+      height: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .faq-icon span:last-child {
+      width: 2px;
+      height: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .faq-item-premium.active .faq-icon span:last-child {
+      transform: translateX(-50%) rotate(90deg);
+      opacity: 0;
+    }
+
+    .faq-answer-premium {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease, padding 0.3s ease;
+      padding: 0 30px;
+    }
+
+    .faq-item-premium.active .faq-answer-premium {
+      max-height: 500px;
+      padding: 0 30px 30px;
+    }
+
+    /* === ПРЕМИУМ ПАРТНЕРЫ === */
+    .partners-premium {
+      padding: 80px 40px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--border-radius);
+      margin: 80px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .partners-track-premium {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      animation: scrollPartners 30s linear infinite;
+    }
+
+    .partner-logo {
+      height: 60px;
+      filter: grayscale(100%) brightness(0.5);
+      transition: var(--transition);
+      opacity: 0.6;
+    }
+
+    .partner-logo:hover {
+      filter: grayscale(0%) brightness(1);
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    @keyframes scrollPartners {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* === ПРЕМИУМ КОНТАКТЫ - ИСПРАВЛЕНА СТРУКТУРА === */
+    .contact-container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-header {
+      margin-bottom: 60px;
+    }
+
+    .contact-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 800;
+      background: linear-gradient(45deg, var(--gold1), var(--platinum));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+    }
+
+    .contact-header p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .contact-main h3 {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .contact-main > p {
+      color: var(--text-muted);
+      font-size: 18px;
+      margin-bottom: 50px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      transition: var(--transition);
+      text-decoration: none;
+      color: inherit;
+      text-align: left;
+    }
+
+    .contact-method:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 215, 0, 0.3);
+      background: rgba(255, 215, 0, 0.05);
+    }
+
+    .contact-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #000;
+      flex-shrink: 0;
+    }
+
+    .contact-details h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .contact-details p {
+      color: var(--text-muted);
+      font-size: 16px;
+      margin: 0;
+    }
+
+    /* === ПРЕМИУМ ФУТЕР === */
+    .premium-footer {
+      background: linear-gradient(135deg, #0a0a0a, #050505);
+      padding: 80px 40px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand .brand-name {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .footer-brand p {
+      color: var(--text-muted);
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 400px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .social-link {
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-size: 20px;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .social-link:hover {
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      color: #000;
+      transform: translateY(-5px);
+    }
+
+    .footer-links h4 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 25px;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 15px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--gold1);
+      padding-left: 10px;
+    }
+
+    .footer-bottom {
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .copyright {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 30px;
+    }
+
+    .footer-legal a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+
+    .footer-legal a:hover {
+      color: var(--gold1);
+    }
+
+    /* === ПРЕМИУМ КНОПКА НАВЕРХ === */
+    .to-top-premium {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: var(--transition);
+      z-index: 999;
+      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+    }
+
+    .to-top-premium.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .to-top-premium:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
+    }
+
+    /* === ПРЕМИУМ ЧАТ === */
+    .premium-chat {
+      position: fixed;
+      bottom: 120px;
+      right: 40px;
+      width: 400px;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      transform: translateY(20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .premium-chat.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .chat-header {
+      padding: 25px;
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .chat-close {
+      background: none;
+      border: none;
+      color: #000;
+      font-size: 24px;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+
+    .chat-close:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-body {
+      padding: 25px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .message {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 15px;
+    }
+
+    .message.agent .avatar {
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      color: #000;
+    }
+
+    .message.user {
+      flex-direction: row-reverse;
+    }
+
+    .message.user .content {
+      background: rgba(255, 215, 0, 0.1);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .content {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 15px 20px;
+      max-width: 70%;
+    }
+
+    .chat-input {
+      padding: 25px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      gap: 15px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 15px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    .chat-input button {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      border: none;
+      border-radius: 50%;
+      color: #000;
+      font-size: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .chat-input button:hover {
+      transform: scale(1.1);
+    }
+
+    .chat-toggle {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--gold1), var(--gold2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 999;
+      box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+      transition: var(--transition);
+    }
+
+    .chat-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 20px 45px rgba(255, 215, 0, 0.6);
+    }
+
+    /* === NFC SIMULATOR STYLES === */
+    .nfc-simulator {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #0a0a0a;
+      padding: 30px;
+      border-radius: 25px;
+      border: 2px solid rgba(255,215,0,.3);
+    }
+
+    .simulation-area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      margin: 40px 0;
+    }
+
+    .phone {
+      width: 230px;
+      height: 460px;
+      background: #111;
+      border-radius: 40px;
+      border: 8px solid #222;
+      position: relative;
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .nfc-card {
+      width: 280px;
+      height: 160px;
+      background: linear-gradient(135deg,#1a1a1a,#2a2a2a);
+      border-radius: 20px;
+      cursor: grab;
+      position: relative;
+      transition: .3s;
+      border: 2px solid transparent;
+    }
+
+    .nfc-card.dragging {
+      transform: scale(.95);
+      border-color: #ffd700;
+    }
+
+    .chip {
+      width: 45px;
+      height: 35px;
+      background: linear-gradient(45deg,#d4af37,#ffed4e);
+      border-radius: 8px;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .contactless {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 32px;
+      height: 32px;
+      border: 3px solid #ffd700;
+      border-radius: 50%;
+    }
+
+    .card-text {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+    }
+
+    .contact-received {
+      opacity: 0;
+      transition: .4s;
+    }
+
+    .nfc-simulator button {
+      background: #ffd700;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+      color: #000;
+    }
+
+    /* ===============================
+       GLOBAL PARTICLES FIX (DO NOT TOUCH)
+       =============================== */
+
+    /* сам canvas с частицами */
+    #particles-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* весь контент ВСЕГДА поверх частиц */
+    header,
+    main,
+    footer,
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* убираем "стены", которые перекрывают частицы */
+    .section-premium {
+      background: transparent !important;
+      overflow: visible !important;
+    }
+
+    /* если где-то нужен тёмный фон — делаем стекло */
+    .premium-hero,
+    .stats-premium,
+    .partners-premium,
+    .nfc-premium,
+    .faq-premium,
+    .portfolio-grid-premium {
+      background: rgba(0, 0, 0, 0.35) !important;
+      backdrop-filter: blur(8px);
+    }
+
+    /* карточки — тоже стеклянные */
+    .portfolio-item,
+    .service-card-premium,
+    .tech-card-premium,
+    .faq-item-premium {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(10px);
+    }
+
+    /* === АНИМАЦИИ === */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+    .delay-4 { animation-delay: 0.8s; }
+
+    /* === МОБИЛЬНАЯ ОПТИМИЗАЦИЯ === */
+    @media (max-width: 1200px) {
+      .hero-title { font-size: 60px; }
+      .section-title { font-size: 42px; }
+      .contact-header h2 { font-size: 36px; }
+      .footer-grid { gap: 40px; }
+    }
+
+    @media (max-width: 992px) {
+      .premium-header { padding: 15px 30px; }
+      .nav-premium { display: none; }
+      .nav-premium.active {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 80px;
+        left: 0;
+        right: 0;
+        background: rgba(5, 5, 5, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 30px;
+        gap: 25px;
+        border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
+      .premium-burger { display: flex; }
+      .hero-title { font-size: 48px; }
+      .section-title { font-size: 36px; }
+      .contact-header h2 { font-size: 32px; }
+      .contact-main h3 { font-size: 28px; }
+      .nfc-demo { flex-direction: column; text-align: center; }
+      .nfc-card-demo { margin: 0 auto; }
+      .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+      .footer-brand p { margin: 0 auto; }
+      .social-links { justify-content: center; }
+      .footer-links ul { text-align: center; }
+      .footer-links a:hover { padding-left: 0; }
+      .premium-chat { width: 350px; right: 20px; }
+      .chat-toggle { right: 20px; }
+      .to-top-premium { right: 20px; }
+    }
+
+    @media (max-width: 768px) {
+      .section-premium { padding: 80px 20px; }
+      .hero-title { font-size: 36px; }
+      .hero-subtitle { font-size: 18px; }
+      .section-title { font-size: 32px; }
+      .section-subtitle { font-size: 16px; }
+      .stat-number { font-size: 32px; }
+      .counter-premium { font-size: 48px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .portfolio-grid-premium { grid-template-columns: 1fr; }
+      .hero-cta-container { flex-direction: column; align-items: center; }
+      .btn-premium { width: 100%; justify-content: center; }
+      .hero-stats { gap: 20px; }
+      .stat-item { min-width: 140px; padding: 20px; }
+      .about-stats { grid-template-columns: repeat(2, 1fr); }
+      .about-stat:nth-child(3) { grid-column: 1 / -1; }
+      .contact-methods { grid-template-columns: 1fr; }
+      .contact-method { flex-direction: column; text-align: center; gap: 15px; }
+      .contact-details { text-align: center; }
+      .nfc-premium { padding: 40px 20px; margin: 60px 0; }
+      .nfc-simulator { padding: 20px; }
+      .simulation-area { flex-direction: column; gap: 30px; }
+      .premium-chat { width: calc(100% - 40px); right: 20px; }
+      .chat-toggle { width: 60px; height: 60px; bottom: 20px; right: 20px; }
+      .to-top-premium { width: 50px; height: 50px; bottom: 90px; right: 20px; }
+    }
+
+    @media (max-width: 576px) {
+      .premium-header { padding: 12px 20px; }
+      .hero-title { font-size: 32px; }
+      .section-title { font-size: 28px; }
+      .hero-eyebrow { font-size: 12px; padding: 6px 15px; }
+      .brand-name { font-size: 24px; }
+      .brand-tagline { font-size: 10px; }
+      .cta-premium { padding: 10px 20px; font-size: 14px; }
+      .stat-item { min-width: 120px; padding: 15px; }
+      .stat-number { font-size: 28px; }
+      .about-stats { grid-template-columns: 1fr; }
+      .portfolio-filter { flex-direction: column; align-items: center; }
+      .filter-btn { width: 100%; max-width: 200px; }
+      .footer-grid { gap: 30px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .footer-legal { flex-direction: column; gap: 15px; }
+      .premium-chat { bottom: 100px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 28px; }
+      .section-title { font-size: 24px; }
+      .hero-stats { flex-direction: column; align-items: center; }
+      .stat-item { width: 100%; max-width: 250px; }
+      .contact-header h2 { font-size: 28px; }
+      .contact-main h3 { font-size: 24px; }
+      .nfc-card-demo { width: 250px; height: 150px; }
+      .phone { width: 200px; height: 400px; }
+      .nfc-card { width: 240px; height: 140px; }
+    }
+
+    /* === ИСПРАВЛЕНИЕ ПРОБЛЕМ С ОТКРЫТИЕМ/ЗАКРЫТИЕМ МЕНЮ === */
+    .nav-premium:not(.active) {
+      display: flex;
+    }
+
+    /* === FIX FOR SMOOTH SCROLL ON MOBILE === */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      .animate-fade-in-up {
+        animation: none;
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* === FIX FOR TOUCH DEVICES === */
+    @media (hover: none) and (pointer: coarse) {
+      .service-card-premium:hover,
+      .tech-card-premium:hover,
+      .portfolio-item:hover,
+      .stat-item:hover,
+      .contact-method:hover {
+        transform: none;
+      }
+      
+      .btn-premium:hover,
+      .cta-premium:hover,
+      .social-link:hover,
+      .nav-link:hover {
+        transform: none;
+      }
+      
+      .service-card-premium:active,
+      .btn-premium:active,
+      .cta-premium:active {
+        transform: scale(0.98);
+      }
+    }
+    @media (max-width: 992px) {
+
+  .nav-premium {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 5, 5, 0.98);
+    backdrop-filter: blur(25px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all .6s cubic-bezier(.77,0,.175,1);
+    z-index: 1000;
+  }
+
+  .nav-premium.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-link {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+
+  .cta-premium {
+    margin-top: 40px;
+    font-size: 18px;
+    padding: 16px 36px;
+  }
+}
+@media (max-width: 576px) {
+  .brand-name {
+    font-size: 20px;
+  }
+
+  .brand-tagline {
+    display: none;
+  }
+
+  .logo-circle {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <!-- ПРЕМИУМ LOADER -->
+  <div id="premium-loader">
+    <div class="loader-logo">
+      <img src="./GT PNG.PNG" alt="Grand Tech Logo">
+    </div>
+    <div class="loader-progress">
+      <div class="loader-progress-bar"></div>
+    </div>
+  </div>
+
+  <!-- ПРЕМИУМ HEADER -->
+  <header class="premium-header">
+    <div class="header-container">
+      <div class="brand-premium">
+        <div class="logo-circle">
+          <img src="./GT PNG.PNG" alt="Grand Tech Logo" class="logo-img">
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">GRAND TECH</div>
+          <div class="brand-tagline">Премиум Веб-Разработка</div>
+        </div>
+      </div>
+      
+      <nav class="nav-premium">
+        <a href="#about" class="nav-link">О Нас</a>
+        <a href="#services" class="nav-link">Услуги</a>
+        <a href="#portfolio" class="nav-link">Портфолио</a>
+        <a href="#technologies" class="nav-link">Технологии</a>
+        <a href="#contact" class="nav-link">Контакты</a>
+        <a href="https://t.me/GrandTheTech" target="_blank" class="cta-premium">
+          <i class="fab fa-telegram"></i>
+          Заказать
+        </a>
+      </nav>
+      
+      <div class="premium-burger" id="burgerToggle">
+        <div class="burger-line"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ПРЕМИУМ HERO -->
+  <section class="premium-hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-particles" id="heroParticles"></div>
+    
+    <div class="hero-content">
+      <div class="hero-eyebrow animate-fade-in-up">Элитная Веб-Разработка</div>
+      <h1 class="hero-title animate-fade-in-up delay-1">GRAND TECH</h1>
+      <p class="hero-subtitle animate-fade-in-up delay-2">
+        Создаём цифровые шедевры для бизнеса премиум-класса. Индивидуальный дизайн, 
+        инновационные технологии и безупречное исполнение под ключ.
+      </p>
+      
+      <div class="hero-cta-container animate-fade-in-up delay-3">
+        <a href="https://t.me/GrandTheTech" target="_blank" class="btn-premium btn-primary">
+          <i class="fas fa-rocket"></i>
+          Начать проект
+        </a>
+        <a href="#portfolio" class="btn-premium btn-secondary">
+          <i class="fas fa-eye"></i>
+          Смотреть работы
+        </a>
+      </div>
+      
+      <div class="hero-stats">
+        <div class="stat-item animate-fade-in-up delay-1">
+          <div class="stat-number">38+</div>
+          <div class="stat-label">Проектов</div>
+        </div>
+        <div class="stat-item animate-fade-in-up delay-2">
+          <div class="stat-number">30+</div>
+          <div class="stat-label">Клиентов</div>
+        </div>
+        <div class="stat-item animate-fade-in-up delay-3">
+          <div class="stat-number">3+</div>
+          <div class="stat-label">Года опыта</div>
+        </div>
+        <div class="stat-item animate-fade-in-up delay-4">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Успеха</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- О НАС -->
+  <section id="about" class="section-premium">
+    <div class="section-header">
+      <div class="section-eyebrow">О Нас</div>
+      <h2 class="section-title">Элитная студия веб-разработки</h2>
+      <p class="section-subtitle">
+        Создаём цифровые решения премиум-класса для бизнеса, который стремится к совершенству.
+      </p>
+    </div>
+    
+    <div class="about-content">
+      <h3>Превращаем ваши идеи в цифровое искусство</h3>
+      <p>
+        Grand Tech — это элитная студия веб-разработки, где каждая деталь имеет значение. 
+        Мы не просто создаём сайты — мы создаём цифровые шедевры, которые отражают суть вашего бренда 
+        и решают конкретные бизнес-задачи.
+      </p>
+      <p>
+        Наш подход основан на глубоком анализе, индивидуальном дизайне и использовании 
+        самых современных технологий. Мы работаем только с премиум-материалами и гарантируем 
+        безупречное качество на каждом этапе.
+      </p>
+      
+      <div class="about-stats">
+        <div class="about-stat">
+          <div class="stat-number">6</div>
+          <div class="stat-label">Дней разработки</div>
+        </div>
+        <div class="about-stat">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Поддержка</div>
+        </div>
+        <div class="about-stat">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Уникальность</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- УСЛУГИ -->
+  <section id="services" class="section-premium">
+    <div class="section-header">
+      <div class="section-eyebrow">Услуги</div>
+      <h2 class="section-title">Премиум решения</h2>
+      <p class="section-subtitle">
+        Полный спектр услуг для создания и развития вашего цифрового присутствия.
+      </p>
+    </div>
+    
+    <div class="services-grid">
+      <div class="service-card-premium">
+        <div class="service-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <h3>Разработка под ключ</h3>
+        <p>
+          Лендинги, корпоративные сайты, интернет-магазины и веб-приложения. 
+          Полный цикл от идеи до запуска.
+        </p>
+        <ul class="service-features">
+          <li><i class="fas fa-check"></i> Индивидуальный дизайн</li>
+          <li><i class="fas fa-check"></i> Адаптивная верстка</li>
+          <li><i class="fas fa-check"></i> SEO-оптимизация</li>
+          <li><i class="fas fa-check"></i> Техническая поддержка</li>
+        </ul>
+        <a href="#contact" class="btn-premium btn-secondary" style="width: 100%; justify-content: center;">
+          <i class="fas fa-arrow-right"></i>
+          Подробнее
+        </a>
+      </div>
+      
+      <div class="service-card-premium">
+        <div class="service-icon">
+          <i class="fas fa-palette"></i>
+        </div>
+        <h3>UI/UX Дизайн</h3>
+        <p>
+          Создание уникальных интерфейсов с акцентом на пользовательский опыт 
+          и визуальное совершенство.
+        </p>
+        <ul class="service-features">
+          <li><i class="fas fa-check"></i> Прототипирование</li>
+          <li><i class="fas fa-check"></i> Бренд-дизайн</li>
+          <li><i class="fas fa-check"></i> Анимация интерфейсов</li>
+          <li><i class="fas fa-check"></i> Тестирование UX</li>
+        </ul>
+        <a href="#contact" class="btn-premium btn-secondary" style="width: 100%; justify-content: center;">
+          <i class="fas fa-arrow-right"></i>
+          Подробнее
+        </a>
+      </div>
+      
+      <div class="service-card-premium">
+        <div class="service-icon">
+          <i class="fas fa-mobile-alt"></i>
+        </div>
+        <h3>NFC Технологии</h3>
+        <p>
+          Современные NFC-визитки и решения для бесконтактного обмена информацией 
+          и автоматизации бизнес-процессов.
+        </p>
+        <ul class="service-features">
+          <li><i class="fas fa-check"></i> NFC-визитки</li>
+          <li><i class="fas fa-check"></i> Умные метки</li>
+          <li><i class="fas fa-check"></i> Программирование</li>
+          <li><i class="fas fa-check"></i> Брендирование</li>
+        </ul>
+        <a href="#contact" class="btn-premium btn-secondary" style="width: 100%; justify-content: center;">
+          <i class="fas fa-arrow-right"></i>
+          Подробнее
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NFC ВИЗИТКИ -->
+  <section class="nfc-premium">
+    <div class="section-header">
+      <div class="section-eyebrow">Технологии</div>
+      <h2 class="section-title">NFC Визитки</h2>
+      <p class="section-subtitle">
+        Цифровые визитки нового поколения — один тап, и вся информация у клиента в телефоне.
+      </p>
+    </div>
+    
+    <div class="nfc-demo">
+      <div class="nfc-card-demo">
+        <div class="nfc-chip"></div>
+        <div class="nfc-contactless"></div>
+        <div class="nfc-info">
+          <h3>Grand Tech NFC</h3>
+          <p>Премиум визитка</p>
+        </div>
+      </div>
+      
+      <div class="nfc-content">
+        <h3 style="color: var(--gold1); margin-bottom: 20px;">Инновация в обмене контактами</h3>
+        <p style="color: var(--text-muted); margin-bottom: 25px; line-height: 1.8;">
+          Наши NFC-визитки — это сочетание элегантного дизайна и современных технологий. 
+          Просто поднесите визитку к телефону — и клиент мгновенно получает всю информацию.
+        </p>
+        <div class="hero-cta-container">
+          <a href="#contact" class="btn-premium btn-primary">
+            <i class="fas fa-shopping-cart"></i>
+            Заказать NFC
+          </a>
+          <a href="#faq" class="btn-premium btn-secondary">
+            <i class="fas fa-question-circle"></i>
+            FAQ по NFC
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NFC SIMULATOR -->
+  <div class="nfc-simulator">
+    <h2>📲 NFC Симулятор в реальном времени</h2>
+    <p>На ПК — перетащите карту. На телефоне — нажмите.</p>
+
+    <div class="simulation-area">
+      <div class="nfc-card" id="nfcCard" draggable="true">
+        <div class="chip"></div>
+        <div class="contactless"></div>
+        <div class="card-text">
+          <h3>Grand Tech</h3>
+          <p>Элитная разработка</p>
+        </div>
+      </div>
+
+      <div class="phone" id="phone">
+        <div class="screen">
+          <div class="contact-received" id="contactReceived">
+            <h3>📲 Контакт получен</h3>
+            <p>Grand Tech</p>
+            <button onclick="downloadContact()">💾 Сохранить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ТЕХНОЛОГИИ -->
+  <section id="technologies" class="section-premium">
+    <div class="section-header">
+      <div class="section-eyebrow">Технологии</div>
+      <h2 class="section-title">Наш стек</h2>
+      <p class="section-subtitle">
+          Используем только самые современные и проверенные технологии.
+      </p>
+    </div>
+    
+    <div class="tech-grid-premium">
+      <div class="tech-card-premium">
+        <div class="tech-icon">
+          <i class="fab fa-js"></i>
+        </div>
+        <h3>JavaScript</h3>
+        <p>Современные фреймворки и библиотеки для динамичных интерфейсов.</p>
+      </div>
+      
+      <div class="tech-card-premium">
+        <div class="tech-icon">
+          <i class="fab fa-react"></i>
+        </div>
+        <h3>React</h3>
+        <p>Быстрые и отзывчивые веб-приложения с современным UX.</p>
+      </div>
+      
+      <div class="tech-card-premium">
+        <div class="tech-icon">
+          <i class="fas fa-server"></i>
+        </div>
+        <h3>Backend</h3>
+        <p>Надёжные серверные решения и базы данных.</p>
+      </div>
+      
+      <div class="tech-card-premium">
+        <div class="tech-icon">
+          <i class="fas fa-satellite-dish"></i>
+        </div>
+        <h3>NFC</h3>
+        <p>Бесконтактные технологии для бизнеса.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПОРТФОЛИО -->
+  <section id="portfolio" class="section-premium">
+    <div class="section-header">
+      <div class="section-eyebrow">Работы</div>
+      <h2 class="section-title">Наши проекты</h2>
+      <p class="section-subtitle">
+          Лучшие примеры нашей работы для клиентов из разных отраслей.
+      </p>
+    </div>
+    
+    <div class="portfolio-filter">
+      <button class="filter-btn active">Все</button>
+      <button class="filter-btn">Лендинги</button>
+      <button class="filter-btn">Интернет-магазины</button>
+      <button class="filter-btn">Корпоративные</button>
+    </div>
+    
+    <div class="portfolio-grid-premium">
+      <!-- Проекты будут добавляться через JavaScript -->
+    </div>
+  </section>
+
+  <!-- СТАТИСТИКА -->
+  <section class="stats-premium">
+    <div class="section-header">
+      <h2 class="section-title">В цифрах</h2>
+      <p class="section-subtitle">Наши достижения и статистика работы.</p>
+    </div>
+    
+    <div class="stats-grid">
+      <div class="stat-premium">
+        <div class="counter-premium" data-target="38">0</div>
+        <div class="stat-label-premium">Проектов</div>
+      </div>
+      
+      <div class="stat-premium">
+        <div class="counter-premium" data-target="30">0</div>
+        <div class="stat-label-premium">Клиентов</div>
+      </div>
+      
+      <div class="stat-premium">
+        <div class="counter-premium" data-target="10">0</div>
+        <div class="stat-label-premium">Партнёров</div>
+      </div>
+      
+      <div class="stat-premium">
+        <div class="counter-premium" data-target="3">0</div>
+        <div class="stat-label-premium">Страны</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section-premium">
+    <div class="section-header">
+      <div class="section-eyebrow">FAQ</div>
+      <h2 class="section-title">Частые вопросы</h2>
+      <p class="section-subtitle">
+          Ответы на самые популярные вопросы о наших услугах.
+      </p>
+    </div>
+    
+    <div class="faq-premium">
+      <div class="faq-item-premium">
+        <button class="faq-question-premium">
+          Сколько времени занимает разработка сайта?
+          <div class="faq-icon">
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+        <div class="faq-answer-premium">
+          <p>Сроки зависят от сложности проекта. Лендинг — 5-7 дней, корпоративный сайт — 10-14 дней, интернет-магазин — 15-20 дней. Мы всегда соблюдаем оговоренные сроки.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item-premium">
+        <button class="faq-question-premium">
+          Что входит в услугу "под ключ"?
+          <div class="faq-icon">
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+        <div class="faq-answer-premium">
+          <p>Дизайн, вёрстка, программирование, наполнение контентом, SEO-настройка, обучение работе с админ-панелью и 30 дней технической поддержки.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item-premium">
+        <button class="faq-question-premium">
+          Подходят ли NFC-визитки для моего бизнеса?
+          <div class="faq-icon">
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+        <div class="faq-answer-premium">
+          <p>NFC-визитки идеальны для любого бизнеса, где важен быстрый обмен контактами: консалтинг, недвижимость, автосалоны, рестораны, медицинские клиники и т.д.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item-premium">
+        <button class="faq-question-premium">
+          Предоставляете ли вы гарантию?
+          <div class="faq-icon">
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+        <div class="faq-answer-premium">
+          <p>Да, мы предоставляем 6 месяцев гарантии на все работы и 1 год на NFC-визитки. Гарантия покрывает исправление любых технических ошибок.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПАРТНЕРЫ -->
+  <section class="partners-premium">
+    <div class="section-header">
+      <div class="section-eyebrow">Партнёры</div>
+      <h2 class="section-title">Нам доверяют</h2>
+    </div>
+    
+    <div class="partners-track-premium">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" class="partner-logo">
+      <img src="https://dummyimage.com/200x60/000/fff&text=Uzbelas" alt="Uzbelas" class="partner-logo">
+      <img src="https://seeklogo.com/images/N/netlify-logo-758722CDF4-seeklogo.com.png" alt="Netlify" class="partner-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" class="partner-logo">
+      <img src="https://dummyimage.com/200x60/000/fff&text=Blitz+Shop" alt="Blitz Shop" class="partner-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Adobe_Corporate_Logo.png" alt="Adobe" class="partner-logo">
+    </div>
+  </section>
+
+  <!-- КОНТАКТЫ - ИСПРАВЛЕННАЯ СТРУКТУРА -->
+  <section id="contact" class="section-premium">
+    <div class="contact-container">
+      <div class="contact-header">
+        <h2>Свяжитесь с нами</h2>
+        <p>Готовы обсудить ваш проект? Напишите нам — ответим в течение 15 минут.</p>
+      </div>
+      
+      <div class="contact-main">
+        <h3>Давайте создадим что-то великое вместе</h3>
+        <p>Мы всегда открыты для новых проектов и интересных сотрудничеств.</p>
+        
+        <div class="contact-methods">
+          <a href="tel:+998950298778" class="contact-method">
+            <div class="contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="contact-details">
+              <h4>Телефон</h4>
+              <p>+998 95 029 87 78</p>
+            </div>
+          </a>
+          
+          <a href="https://t.me/GrandTheTech" target="_blank" class="contact-method">
+            <div class="contact-icon">
+              <i class="fab fa-telegram"></i>
+            </div>
+            <div class="contact-details">
+              <h4>Telegram</h4>
+              <p>@GrandTheTech</p>
+            </div>
+          </a>
+          
+          <a href="mailto:grandtech@gmail.com" class="contact-method">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-details">
+              <h4>Email</h4>
+              <p>grandtech@gmail.com</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ФУТЕР -->
+  <footer class="premium-footer">
+    <div class="footer-content">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-name">GRAND TECH</div>
+          <p>
+            Элитная студия веб-разработки, создающая цифровые шедевры для бизнеса премиум-класса.
+          </p>
+          
+          <div class="social-links">
+            <a href="https://instagram.com/grandtech_agency" target="_blank" class="social-link">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://t.me/GrandTheTech" target="_blank" class="social-link">
+              <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://wa.me/998950298778" target="_blank" class="social-link">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="social-link">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Навигация</h4>
+          <ul>
+            <li><a href="#about">О нас</a></li>
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#portfolio">Портфолио</a></li>
+            <li><a href="#technologies">Технологии</a></li>
+            <li><a href="#contact">Контакты</a></li>
+            <li><a href="/constructor.html" class="footer-cta">
+              <i class="fas fa-palette"></i> Дизайн-Конструктор
+            </a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Услуги</h4>
+          <ul>
+            <li><a href="#services">Разработка сайтов</a></li>
+            <li><a href="#services">UI/UX Дизайн</a></li>
+            <li><a href="#services">NFC Визитки</a></li>
+            <li><a href="#contact">Консультация</a></li>
+            <li><a href="#contact">Поддержка</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="copyright">
+          © <span id="currentYear"></span> Grand Tech. Все права защищены.
+        </div>
+        <div class="footer-legal">
+          <a href="#">Политика конфиденциальности</a>
+          <a href="#">Условия использования</a>
+          <a href="#contact">Контакты</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- КНОПКА НАВЕРХ -->
+  <div class="to-top-premium" id="toTop">
+    <i class="fas fa-chevron-up"></i>
+  </div>
+
+  <!-- ЧАТ -->
+  <div class="chat-toggle" id="chatToggle">
+    <i class="fas fa-comment-dots"></i>
+  </div>
+  
+  <div class="premium-chat" id="premiumChat">
+    <div class="chat-header">
+      <h3>Grand Tech Support</h3>
+      <button class="chat-close" id="chatClose">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="chat-body" id="chatBody">
+      <div class="message agent">
+        <div class="avatar">
+          <i class="fas fa-robot"></i>
+        </div>
+        <div class="content">
+          <p>👋 Здравствуйте! Я виртуальный помощник Grand Tech. Чем могу помочь?</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Напишите ваш вопрос...">
+      <button id="chatSend">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    // === ПРЕМИУМ LOADER ===
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('premium-loader');
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 1000);
+      }, 1500);
+    });
+
+    // === ПРЕМИУМ HEADER SCROLL ===
+    const header = document.querySelector('.premium-header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // === ПРЕМИУМ БУРГЕР МЕНЮ ===
+    const burgerToggle = document.getElementById('burgerToggle');
+    const nav = document.querySelector('.nav-premium');
+    
+    burgerToggle.addEventListener('click', () => {
+      burgerToggle.classList.toggle('active');
+      nav.classList.toggle('active');
+      
+      if (!nav.classList.contains('active')) {
+        // Плавное скрытие меню
+        nav.style.opacity = '0';
+        nav.style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+          nav.style.display = 'none';
+          nav.style.opacity = '';
+          nav.style.transform = '';
+        }, 300);
+      } else {
+        nav.style.display = 'flex';
+        setTimeout(() => {
+          nav.style.opacity = '1';
+          nav.style.transform = 'translateY(0)';
+        }, 10);
+      }
+    });
+
+    // Закрытие меню при клике на ссылку (для мобильных)
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 992) {
+          burgerToggle.classList.remove('active');
+          nav.classList.remove('active');
+          nav.style.display = 'none';
+        }
+      });
+    });
+
+    // === ПРЕМИУМ ПАРТИКЛЫ ===
+    const heroParticles = document.getElementById('heroParticles');
+    if (heroParticles) {
+      const canvas = document.createElement('canvas');
+      heroParticles.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      
+      let particles = [];
+      const particleCount = window.innerWidth < 768 ? 50 : 100;
+      
+      function resizeCanvas() {
+        canvas.width = heroParticles.offsetWidth;
+        canvas.height = heroParticles.offsetHeight;
+        initParticles();
+      }
+      
+      function initParticles() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 1,
+            speedX: (Math.random() - 0.5) * 0.5,
+            speedY: (Math.random() - 0.5) * 0.5,
+            color: `rgba(255, 215, 0, ${Math.random() * 0.3 + 0.1})`
+          });
+        }
+      }
+      
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(particle => {
+          particle.x += particle.speedX;
+          particle.y += particle.speedY;
+          
+          if (particle.x > canvas.width) particle.x = 0;
+          if (particle.x < 0) particle.x = canvas.width;
+          if (particle.y > canvas.height) particle.y = 0;
+          if (particle.y < 0) particle.y = canvas.height;
+          
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          ctx.fillStyle = particle.color;
+          ctx.fill();
+        });
+        
+        requestAnimationFrame(animateParticles);
+      }
+      
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      animateParticles();
+    }
+
+    // === ПРЕМИУМ СЧЕТЧИКИ ===
+    const counters = document.querySelectorAll('.counter-premium');
+    const speed = 200;
+    
+    counters.forEach(counter => {
+      const updateCount = () => {
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText;
+        const increment = Math.ceil(target / speed);
+        
+        if (count < target) {
+          counter.innerText = count + increment;
+          setTimeout(updateCount, 10);
+        } else {
+          counter.innerText = target + '+';
+        }
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            updateCount();
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      observer.observe(counter);
+    });
+
+    // === ПРЕМИУМ FAQ ===
+    const faqItems = document.querySelectorAll('.faq-item-premium');
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question-premium');
+      question.addEventListener('click', () => {
+        item.classList.toggle('active');
+      });
+    });
+
+    // === ПРЕМИУМ ПОРТФОЛИО ===
+    const portfolioItems = [
+      {
+        title: "Grand Rest",
+        category: "Корпоративные",
+        image: "./rest.png",
+        link: "https://grandrest.netlify.app/"
+      },
+      {
+        title: "Doctor Kamila",
+        category: "Лендинги",
+        image: "./doctor.png",
+        link: "https://doctorkamila.netlify.app/"
+      },
+      {
+        title: "Blitz Shop",
+        category: "Интернет-магазины",
+        image: "./shop.png",
+        link: "https://blitzshop1.netlify.app/"
+      },
+      {
+        title: "Luna Bloom",
+        category: "Интернет-магазины",
+        image: "./bloom.png",
+        link: "https://lunabloom.netlify.app"
+      },
+      {
+        title: "Levana Jewerly",
+        category: "Интернет-магазины",
+        image: "./jewerly.png",
+        link: "https://levanjewelery.netlify.app/"
+      },
+      {
+        title: "Uzbelas Performance",
+        category: "Корпоративные",
+        image: "./uzblas.png",
+        link: "https://uzbelasperformance.store/"
+      },
+      {
+        title: "Chevrolet Tracker 2",
+        category: "Лендинги",
+        image: "./tracker.png",
+        link: "https://tracker2auto.netlify.app/"
+      },
+      {
+        title: "Red Robe",
+        category: "Интернет-магазины",
+        image: "./redrobe.png",
+        link: "https://redrobe1.netlify.app/"
+      },
+    ];
+    
+    const portfolioGrid = document.querySelector('.portfolio-grid-premium');
+    if (portfolioGrid) {
+      portfolioItems.forEach(item => {
+        const portfolioItem = document.createElement('div');
+        portfolioItem.className = 'portfolio-item';
+        portfolioItem.innerHTML = `
+          <img src="${item.image}" alt="${item.title}" class="portfolio-image" loading="lazy">
+          <div class="portfolio-overlay">
+            <div class="portfolio-info">
+              <h3>${item.title}</h3>
+              <p>${item.category}</p>
+              <a href="${item.link}" target="_blank" class="btn-premium btn-primary" style="padding: 10px 20px;">
+                <i class="fas fa-external-link-alt"></i>
+                Посмотреть
+              </a>
+            </div>
+          </div>
+        `;
+        portfolioGrid.appendChild(portfolioItem);
+      });
+    }
+
+    // === ПРЕМИУМ КНОПКА НАВЕРХ ===
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        toTop.classList.add('visible');
+      } else {
+        toTop.classList.remove('visible');
+      }
+    });
+    
+    toTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // === ПРЕМИУМ ЧАТ ===
+    const chatToggle = document.getElementById('chatToggle');
+    const premiumChat = document.getElementById('premiumChat');
+    const chatClose = document.getElementById('chatClose');
+    const chatSend = document.getElementById('chatSend');
+    const chatInput = document.getElementById('chatInput');
+    const chatBody = document.getElementById('chatBody');
+    
+    chatToggle.addEventListener('click', () => {
+      premiumChat.classList.add('active');
+    });
+    
+    chatClose.addEventListener('click', () => {
+      premiumChat.classList.remove('active');
+    });
+    
+    chatSend.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+    
+    function sendMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
+      
+      // Добавляем сообщение пользователя
+      const userMessage = document.createElement('div');
+      userMessage.className = 'message user';
+      userMessage.innerHTML = `
+        <div class="content">
+          <p>${message}</p>
+        </div>
+        <div class="avatar">
+          <i class="fas fa-user"></i>
+        </div>
+      `;
+      chatBody.appendChild(userMessage);
+      chatInput.value = '';
+      
+      // Прокрутка вниз
+      chatBody.scrollTop = chatBody.scrollHeight;
+      
+      // Имитация ответа
+      setTimeout(() => {
+        const responses = [
+          "Отличный вопрос! Специалист Grand Tech свяжется с вами в течение 5 минут.",
+          "Спасибо за интерес! Мы уже обрабатываем ваш запрос.",
+          "Для получения подробной информации напишите нам в Telegram: @GrandTheTech",
+          "Спасибо! Наш менеджер скоро с вами свяжется."
+        ];
+        
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        
+        const agentMessage = document.createElement('div');
+        agentMessage.className = 'message agent';
+        agentMessage.innerHTML = `
+          <div class="avatar">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="content">
+            <p>${randomResponse}</p>
+          </div>
+        `;
+        chatBody.appendChild(agentMessage);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }, 1000);
+    }
+
+    // === ПРЕМИУМ ФИЛЬТР ПОРТФОЛИО ===
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const filter = btn.textContent;
+        const items = document.querySelectorAll('.portfolio-item');
+        
+        items.forEach(item => {
+          if (filter === 'Все' || item.querySelector('p').textContent === filter) {
+            item.style.display = 'block';
+            setTimeout(() => {
+              item.style.opacity = '1';
+              item.style.transform = 'scale(1)';
+            }, 100);
+          } else {
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+              item.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+
+    // === ПАРТНЕРСКАЯ ЛЕНТА ===
+    document.addEventListener("DOMContentLoaded", () => {
+      const track = document.querySelector(".partners-track-premium");
+      if (!track) return;
+
+      // Клонируем логотипы для бесконечного скролла
+      const logos = [...track.children];
+      logos.forEach(logo => {
+        const clone = logo.cloneNode(true);
+        track.appendChild(clone);
+      });
+    });
+
+    // === PARTICLES BACKGROUND INIT ===
+    (function () {
+      let canvas = document.getElementById("particles-bg");
+
+      if (!canvas) {
+        canvas = document.createElement("canvas");
+        canvas.id = "particles-bg";
+        document.body.prepend(canvas);
+      }
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener("resize", resize);
+
+      const ctx = canvas.getContext("2d");
+      const PARTICLE_COUNT = window.innerWidth < 768 ? 40 : 80;
+      const particles = [];
+
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 2 + 0.5,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,255,255,0.8)";
+          ctx.fill();
+        });
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
+
+    // === NFC SIMULATOR FUNCTIONALITY ===
+    const card = document.getElementById('nfcCard');
+    const phone = document.getElementById('phone');
+    const contactReceived = document.getElementById('contactReceived');
+
+    let dragging = false;
+
+    /* 🖥️ DESKTOP */
+    card.addEventListener('dragstart', e => {
+      dragging = true;
+      card.classList.add('dragging');
+      e.dataTransfer.setData('text','nfc');
+    });
+
+    card.addEventListener('dragend', () => {
+      dragging = false;
+      card.classList.remove('dragging');
+    });
+
+    phone.addEventListener('dragover', e => e.preventDefault());
+
+    phone.addEventListener('drop', () => {
+      if(dragging) triggerNFC();
+    });
+
+    /* 📱 MOBILE */
+    card.addEventListener('click', () => {
+      if(window.innerWidth <= 768){
+        triggerNFC();
+      }
+    });
+
+    function triggerNFC() {
+      contactReceived.style.opacity = 1;
+      setTimeout(() => {
+        contactReceived.style.opacity = 0;
+      }, 3000);
+    }
+
+    /* VCARD */
+    function downloadContact() {
+      const vCard = `BEGIN:VCARD
+VERSION:3.0
+FN:Grand Tech
+ORG:Grand Tech
+TEL:+998950298778
+URL:https://t.me/GrandTheTech
+END:VCARD`;
+
+      const blob = new Blob([vCard],{type:'text/vcard'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'grandtech.vcf';
+      a.click();
+    }
+
+    // === ПЛАВНЫЕ СКРОЛЛЫ ===
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          let offsetTop = targetElement.offsetTop - 80;
+          
+          if (targetId === '#contact') {
+            offsetTop = targetElement.offsetTop - 100;
+          }
+          
+          window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // === ТЕКУЩИЙ ГОД ===
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // === АНИМАЦИИ ПРИ СКРОЛЛЕ ===
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade-in-up');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.section-premium, .service-card-premium, .tech-card-premium, .portfolio-item').forEach(el => {
+      observer.observe(el);
+    });
+
+    // === FIX FOR MOBILE TOUCH ===
+    document.addEventListener('touchstart', function() {}, {passive: true});
+
+    // === LAZY LOAD IMAGES ===
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            imageObserver.unobserve(img);
+          }
+        });
+      });
+      
+      document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+      });
+    }
+  </script>
+  <script>
+const burger = document.getElementById('burgerToggle');
+const nav = document.querySelector('.nav-premium');
+
+burger.addEventListener('click', () => {
+  burger.classList.toggle('active');
+  nav.classList.toggle('active');
+  document.body.classList.toggle('menu-open');
+});
+</script>
+
+</body>
+</html>
